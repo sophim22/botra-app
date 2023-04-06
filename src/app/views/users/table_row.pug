@@ -1,0 +1,36 @@
+mixin tr(user)
+  tr
+    td.table-item.text-center
+      p.text-gray-900.whitespace-no-wrap= user.id
+    td.table-item.text-center
+      p.text-gray-900.whitespace-no-wrap= user.username
+    td.table-item.text-center
+      p.text-gray-900.whitespace-no-wrap= user.email
+    td.table-item.text-center
+      p.text-gray-900.whitespace-no-wrap= user.phone
+    td.table-item.text-center
+      p.text-gray-900.whitespace-no-wrap= user.dob
+    td.table-item.text-center
+      if user.is_verify
+        .text-green-500 Yes
+      else
+        .text-gray-500 No
+    td.table-item.text-center.capitalize
+      if(user.status ==="active")
+        span.relative.inline-block.px-3.py-1.font-semibold.text-green-900.leading-tight
+          span.absolute.inset-0.bg-green-200.opacity-50.rounded-full(aria-hidden='')
+          span.relative= user.status
+      else
+        span.relative.inline-block.px-3.py-1.font-semibold.text-red-900.leading-tight
+          span.absolute.inset-0.bg-red-200.opacity-50.rounded-full(aria-hidden='')
+          span.relative= user.status
+    td.px-5.py-5.border-b.border-gray-200.bg-white.text-sm.flex.justify-center
+      a.px-3.py-2.text-white.bg-yellow-600.rounded-lg.text-center(href=`/users/${user.id}`)
+        span
+          i.fa-solid.fa-eye
+      a.px-3.py-2.text-white.bg-blue-600.rounded-lg.text-center.ml-3(href=`/users/${user.id}/edit`)
+        span
+          i.fa-solid.fa-pen
+      a.px-3.py-2.text-white.bg-red-600.rounded-lg.ml-3.text-center(href=(`/users/${user.id}`) data-method="delete" data-message="Are you sure?")
+        span
+          i.fa-solid.fa-trash

@@ -1,0 +1,69 @@
+nav.fixed.top-0.h-full(class='hidden bg-gray-900 lg:w-2/12 lg:block')
+  div
+    a(href="/").px-8.py-3.flex.items-center
+      div(class="w-[55px] h-[55px]").flex.justify-center.items-center.mr-5
+        img(src="/images/logo.png", alt="logo", class="object-cover w-full")
+      h2.text-white.font-bold(class="text-xl") MAPP
+  ul.list
+    li
+      a(href="/", class=activeClass('dashboard', routeName),class='disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none hover:bg-white/10 active:bg-white/30 hover:cursor-pointer').menu.middle.none.font-sans.center.transition-all.text-xs.py-4.rounded-lg.w-full.flex.items-center.gap-4.px-6.capitalize
+        span
+          i.fa-solid.fa-house.fa-2x.text-gray-400
+        p.text-gray-400.font-bold.ml-3 Dashbaord
+    li
+      a(href="/directories", class=activeClass("directories", routeName),class='disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none hover:bg-white/10 active:bg-white/30 hover:cursor-pointer').menu.middle.none.font-sans.center.transition-all.text-xs.py-4.rounded-lg.w-full.flex.items-center.gap-4.px-6.capitalize
+        span
+          i.fa-solid.fa-city.fa-2x.text-gray-400
+        p.text-gray-400.font-bold.ml-4 Directories
+          if countReview > 0
+            span.rounded-full.bg-red-500.text-white.p-2.ml-2= countReview
+    li
+      a(href="/categories", class=activeClass("categories", routeName),class='disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none hover:bg-white/10 active:bg-white/30 hover:cursor-pointer').menu.middle.none.font-sans.center.transition-all.text-xs.py-4.rounded-lg.w-full.flex.items-center.gap-4.px-6.capitalize
+        span
+          i.fa-solid.fa-house-circle-exclamation.fa-2x.text-gray-400
+        p.text-gray-400.font-bold.ml-4 Categories
+    li
+      a(href="/users", class=activeClass("users", routeName),class='disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none hover:bg-white/10 active:bg-white/30 hover:cursor-pointer').menu.middle.none.font-sans.center.transition-all.text-xs.py-4.rounded-lg.w-full.flex.items-center.gap-4.px-6.capitalize
+        span
+          i.fa-solid.fa-users.fa-2x.text-gray-400
+        p.text-gray-400.font-bold.ml-4 Users
+    //- li
+    //-   a(href="/coupons", class=activeClass("coupons", routeName),class='disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none hover:bg-white/10 active:bg-white/30 hover:cursor-pointer').menu.middle.none.font-sans.center.transition-all.text-xs.py-4.rounded-lg.w-full.flex.items-center.gap-4.px-6.capitalize
+    //-     span
+    //-       i.fa-solid.fa-tags.fa-2x.text-gray-400
+    //-     p.text-gray-400.font-bold.ml-4 Coupons
+    li
+      a(href="/members", class=activeClass("members", routeName),class='disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none hover:bg-white/10 active:bg-white/30 hover:cursor-pointer').menu.middle.none.font-sans.center.transition-all.text-xs.py-4.rounded-lg.w-full.flex.items-center.gap-4.px-6.capitalize
+        span
+          i.fa-solid.fa-user-secret.fa-2x.text-gray-400
+        p.text-gray-400.font-bold.ml-4 Members
+    li
+      a(href="/banners", class=activeClass("banners", routeName),class='disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none hover:bg-white/10 active:bg-white/30 hover:cursor-pointer').menu.middle.none.font-sans.center.transition-all.text-xs.py-4.rounded-lg.w-full.flex.items-center.gap-4.px-6.capitalize
+        span
+          i.fa-sharp.fa-solid.fa-ribbon.fa-2x.text-gray-400
+        p.text-gray-400.font-bold.ml-4 Banners
+    //- li
+    //-   a(href="/reviews", class=activeClass("reviews", routeName),class='disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none hover:bg-white/10 active:bg-white/30 hover:cursor-pointer').menu.middle.none.font-sans.center.transition-all.text-xs.py-4.rounded-lg.w-full.flex.items-center.gap-4.px-6.capitalize
+    //-     span
+    //-       i.fas.fa-star.fa-2x.text-gray-400
+    //-     p.text-gray-400.font-bold.ml-4 Reviews
+    li
+      a(href="/pages", class=activeClass("pages", routeName),class='disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none hover:bg-white/10 active:bg-white/30 hover:cursor-pointer').menu.middle.none.font-sans.center.transition-all.text-xs.py-4.rounded-lg.w-full.flex.items-center.gap-4.px-6.capitalize
+        span
+          i.fas.fa-book.fa-2x.text-gray-400
+        p.text-gray-400.font-bold.ml-4 Pages
+    li
+      a(href="/features", class=activeClass("features", routeName),class='disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none hover:bg-white/10 active:bg-white/30 hover:cursor-pointer').menu.middle.none.font-sans.center.transition-all.text-xs.py-4.rounded-lg.w-full.flex.items-center.gap-4.px-6.capitalize
+        span
+          i.fas.fa-code.fa-2x.text-gray-400
+        p.text-gray-400.font-bold.ml-4 Features
+    li
+      a(href="/notifications", class=activeClass("notifications", routeName),class='disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none hover:bg-white/10 active:bg-white/30 hover:cursor-pointer').menu.middle.none.font-sans.center.transition-all.text-xs.py-4.rounded-lg.w-full.flex.items-center.gap-4.px-6.capitalize
+        span
+          i.fas.fa-bell.fa-2x.text-gray-400
+        p.text-gray-400.font-bold.ml-4 Notification
+      li
+      a(href="/contactrequest", class=activeClass("contactrequest", routeName),class='disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none hover:bg-white/10 active:bg-white/30 hover:cursor-pointer').menu.middle.none.font-sans.center.transition-all.text-xs.py-4.rounded-lg.w-full.flex.items-center.gap-4.px-6.capitalize
+        span
+          i.fas.fa-inbox.fa-2x.text-gray-400
+        p.text-gray-400.font-bold.ml-4 Contact Request

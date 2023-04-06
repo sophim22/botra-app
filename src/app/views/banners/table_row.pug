@@ -1,0 +1,25 @@
+mixin tr(name, image, link, status, id)
+    tr
+      td.table-item
+        p.text-gray-900.whitespace-no-wrap=name
+      td.table-item
+        p.text-gray-900.whitespace-no-wrap=link
+      td.table-item.capitalize
+        if(status ==="active")
+          span.relative.inline-block.px-3.py-1.font-semibold.text-green-900.leading-tight
+            span.absolute.inset-0.bg-green-200.opacity-50.rounded-full(aria-hidden='')
+            span.relative=status
+        else
+          span.relative.inline-block.px-3.py-1.font-semibold.text-red-900.leading-tight
+            span.absolute.inset-0.bg-red-200.opacity-50.rounded-full(aria-hidden='')
+            span.relative=status
+      td.table-item.flex.justify-center
+        a.px-3.py-2.text-white.bg-yellow-600.rounded-lg.text-center(href=`/banners/${id}`)
+          span
+            i.fa-solid.fa-eye
+        a.px-3.py-2.text-white.bg-blue-600.rounded-lg.text-center.ml-3(href=`/banners/${id}/edit`)
+          span
+            i.fa-solid.fa-pen
+        a.px-3.py-2.text-white.bg-red-600.rounded-lg.ml-3.text-center(href=(`/banners/${id}`) data-method="delete" data-message="Are you sure?")
+          span
+            i.fa-solid.fa-trash

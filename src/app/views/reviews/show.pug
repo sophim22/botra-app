@@ -1,0 +1,40 @@
+extends ../layout
+block content
+    .flex.justify-between.items-center.content-center.mb-2.mx-4
+      h1.text-2xl.text-bold.pt-5 Review Detail
+      nav.flex.justify-end(aria-label='Breadcrumb')
+        ol.inline-flex.items-center.space-x-1(class='md:space-x-3')
+          li.inline-flex.items-center
+            a.inline-flex.items-center.text-sm.font-medium.text-black(href='/' class='hover:text-blue-600')
+              i.fa-solid.fa-house
+              span.ml-1 Home
+          li.inline-flex.items-center
+            a.inline-flex.items-center.text-sm.font-medium.text-black(href='/reviews' class='hover:text-blue-600')
+              i.fa-solid.fa-chevron-right
+              span.ml-1.text-sm.font-medium(class='md:ml-2') Reviews
+          li
+            .flex.items-center
+              i.fa-solid.fa-chevron-right
+              span.ml-1.text-sm.font-medium.text-gray-400(class='md:ml-2 dark:text-gray-400') Show
+    .bg-white.rounded-md.w-full
+      .p-6.bg-white.rounded-md.shadow-md.leading-8
+        .text-gray-700
+          .grid.text-sm(class='md:grid-cols-2')
+            .grid.grid-cols-2
+              .px-4.py-2.font-semibold Rate
+              .px-4.py-2
+                each rate in [1,2,3,4,5]
+                  if rate <= review.rate
+                    i.fa-solid.fa-star.text-yellow-500
+                  else
+                    i.fa-regular.fa-star.text-yellow-500
+            .grid.grid-cols-2
+              .px-4.py-2.font-semibold Content
+              .px-4.py-2=review.content
+            .grid.grid-cols-2
+              .px-4.py-2.font-semibold Property
+              .px-4.py-2
+                a(href=`/properties/${review.property.id}` class="text-blue-700 underline")=review.property.name
+            .grid.grid-cols-2
+              .px-4.py-2.font-semibold Review By
+              a(href=(`/users/${review.user.id}`)).px-4.py-2.text-blue-700.underline=review.user.name

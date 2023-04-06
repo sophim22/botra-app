@@ -1,0 +1,110 @@
+extends ../layout
+
+block content
+  .flex.justify-between.items-center.content-center.mb-2.mx-4
+    .text-2xl.text-bold.pt-5 Directories
+      a(href="/directories/new" class="px-4 py-2 mb-1 ml-2 mr-1 text-xs font-bold text-blue-500 uppercase transition-all duration-150 ease-linear bg-transparent border border-blue-500 border-solid rounded-full outline-none hover:bg-blue-500 hover:text-white active:bg-blue-600 focus:outline-none") Create
+    nav.flex.justify-end.mr-5(aria-label='Breadcrumb')
+      ol.inline-flex.items-center.space-x-1(class='md:space-x-3')
+        li.inline-flex.items-center
+          a.inline-flex.items-center.text-sm.font-medium.text-black(href='/' class='hover:text-blue-600')
+            i.fa-solid.fa-house
+            span.ml-1 Home
+        li.inline-flex.items-center
+          a.inline-flex.items-center.text-sm.font-medium.text-black
+            i.fa-solid.fa-chevron-right
+            span.ml-1.text-sm.font-medium.text-gray-400(class='md:ml-2 dark:text-gray-400') Directories
+
+  .bg-white.rounded-md.w-full.px-4
+    form(action="/directories")
+      div(class='grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3')
+        .ml-3
+          label Name
+          input(class="w-full px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-600" type='text' name='name' value=params.name)
+        .ml-3
+          label Status
+          select.w-full.px-4.py-2.border.w-full.rounded-md.mt-2(class='focus:outline-none focus:ring-1 focus:ring-blue-600' name="status")
+            option(selected=(params.status == '') value="") All
+            option(selected=(params.status === 'pending'), value="pending" ) Pending
+            option(selected=(params.status === 'request preview'), value="request preview" ) Request Preview
+            option(selected=(params.status === 'rejected'), value="rejected" ) Rejected
+            option(selected=(params.status === 'approved'), value="approved" ) Approved
+        .ml-3
+          label Username
+          input(class="w-full px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-600" type='text' name='username' value=params.username)
+        .ml-3
+          label Category
+          select.w-full.px-4.py-2.border.rounded-md(placeholder='Property ID...' type="number" class='focus:outline-none focus:ring-1 focus:ring-blue-600', name="category_id")
+            option(value="") All
+            each category in categories
+              option(selected=(category.id==params.category_id), value=category.id )=category.name
+      .mt-3.text-right
+        button(class="px-6 py-2 text-white bg-blue-800 rounded-md hover:bg-blue-700 focus:outline-none focus:bg-blue-700" type="submit") Search
+        a(class="px-6 py-3 ml-3 text-white bg-gray-800 rounded-md hover:bg-gray-700 focus:outline-none focus:bg-gray-700" href="/directories") Reset
+    .overflow-x-auto.mt-4
+      .inline-block.min-w-full.shadow.rounded-lg.overflow-hidden
+        table.min-w-full.leading-normal.table
+          thead
+            tr
+              th.table-header ID
+              th.table-header Username
+              th.table-header Name
+              th.table-header Contact
+              th.table-header Status
+              th.table-header Category
+              th.table-header.text-center Action
+          tbody
+            if properties.results.length > 0
+              each property, key in properties.results
+                tr
+                  td.table-item
+                    p.text-gray-900.whitespace-no-wrap= property.id
+                  td.table-item
+                    p.text-gray-900.whitespace-no-wrap= property.user ? property.user.username : ''
+                  td.table-item
+                    p.text-gray-900.whitespace-no-wrap= property.name
+                  td.table-item
+                    p.text-gray-900.whitespace-no-wrap= property.contact
+                  td.table-item.capitalize
+                    if(property.status==="approved")
+                      span.ml-2.relative.inline-block.px-3.py-1.font-semibold.text-green-900.leading-tight
+                        span.absolute.inset-0.bg-green-200.opacity-50.rounded-full(aria-hidden='')
+                        span.relative=property.status
+                    else if (property.status==="request preview") 
+                      span.ml-2.relative.inline-block.px-3.py-1.font-semibold.text-yellow-900.leading-tight
+                        span.absolute.inset-0.bg-yellow-200.opacity-50.rounded-full(aria-hidden='')
+                        span.relative=property.status
+                    else if (property.status==="pending") 
+                      span.ml-2.relative.inline-block.px-3.py-1.font-semibold.text-orange-900.leading-tight
+                        span.absolute.inset-0.bg-orange-200.opacity-50.rounded-full(aria-hidden='')
+                        span.relative=property.status
+                    else 
+                      span.ml-2.relative.inline-block.px-3.py-1.font-semibold.text-red-900.leading-tight
+                        span.absolute.inset-0.bg-red-200.opacity-50.rounded-full(aria-hidden='')
+                        span.relative=property.status
+                  td.table-item
+                    p.text-gray-900.whitespace-no-wrap= property.category.name
+                  td.table-item.flex.justify-center
+                    a.px-3.py-2.text-white.bg-yellow-600.rounded-lg.text-center(href=`/directories/${property.id}` title="view")
+                      span
+                        i.fa-solid.fa-eye
+                    a.px-3.py-2.text-white.bg-blue-600.rounded-lg.ml-3.text-center(href=`/directories/${property.id}/edit`)
+                      span
+                        i.fa-solid.fa-pen
+                    a.px-3.py-2.text-white.bg-red-600.rounded-lg.ml-3.text-center(href=(`/galleries/${property.id}`) data-method="delete" data-message="Are you sure?")
+                      span
+                        i.fa-solid.fa-trash
+            else
+              tr
+                td.table-item.text-center.font-bold(colspan=4) No result
+        .px-5.py-5.bg-white.border-t.flex.flex-col.items-center(class='xs:flex-row xs:justify-between')
+          if pagination.totalPage > 1
+            nav
+              ul.pagination
+                li.page-item.prev
+                  a.link(href=`?${pagingUrl(filterParams, pagination.previous)}`) Previous
+                each page in pagination.pages
+                  li.page-item
+                    a( class=`${pagination.currentPage == page ? 'active' : ''}` href=`?${pagingUrl(filterParams, page + 1)}`)= page + 1
+                li.page-item.next
+                  a(href=`?${pagingUrl(filterParams, pagination.next)}`) Next

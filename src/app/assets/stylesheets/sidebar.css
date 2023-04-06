@@ -1,0 +1,43 @@
+
+.child {
+  transition-duration: 500ms;
+  transform: translateY(-20px);
+  height: 0;
+  opacity: 0;
+  overflow: hidden;
+}
+.child-active {
+  opacity: 1;
+  transition-duration: 500ms;
+  height: auto;
+  overflow: none;
+  transform: translateY(0);
+}
+
+.active {
+  border-left: 4px solid plum;
+  padding-left: 10px;
+}
+
+/* .toggle-menu{
+  transition-duration: 1000ms;
+  transform: translateX(-800px);
+  height: 0;
+  opacity: 0;
+  overflow: hidden;
+} */
+.toggle-inActive {
+  transition-duration: 1000ms;
+  transform: translateX(-800px);
+  height: 0;
+  opacity: 0;
+  overflow: hidden;
+}
+.toggle-active {
+  opacity: 1;
+  transition-duration: 1000ms;
+  height: auto;
+  overflow: none;
+  transform: translateX(0);
+  /* display: block; */
+}

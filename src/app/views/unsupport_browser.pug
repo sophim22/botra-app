@@ -1,0 +1,27 @@
+#unsupport
+  .container
+    .row.justify-content-center.row-container
+      .col-12.col-md-10.col-lg-6
+        #unsupport-container
+          h4.text-warning= __('unsupport.wait')
+          h5.text-info= __('unsupport.description')
+          .footer-container
+            p= __('unsupport.footer')
+            
+            .browsers
+              .browser
+                a(href="https://www.google.com/chrome/", target="_blank")
+                  img(src="/images/chrome.png", alt="", class='browser-chrome')
+                  span Chrome
+              .browser
+                a(href="https://www.mozilla.org/en-US/exp/firefox/new/", target="_blank")
+                  img(src="/images/firefox.png", alt="", class='browser-firefox')
+                  span Firefox
+              .browser
+                a(href="https://www.microsoft.com/en-us/edge", target="_blank")
+                  img(src="/images/edge.png", alt="", class='browser-edge')
+                  span Microsoft Edge 
+              .browser
+                a(href="https://win10.software/download-safari/", target="_blank")
+                  img(src="/images/safari.png", alt="", class='browser-safari') 
+                  span Safari

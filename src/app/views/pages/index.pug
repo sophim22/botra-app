@@ -1,0 +1,56 @@
+extends ../layout
+block content
+  .flex.justify-between.items-center.content-center.mb-2.m-4
+    .text-2xl.text-bold Pages
+      a(href="/pages/new" class="px-4 py-2 mb-1 ml-2 mr-1 text-xs font-bold text-blue-500 uppercase transition-all duration-150 ease-linear bg-transparent border border-blue-500 border-solid rounded-full outline-none hover:bg-blue-500 hover:text-white active:bg-blue-600 focus:outline-none") Create
+    nav.flex.justify-end.mr-5(aria-label='Breadcrumb')
+      ol.inline-flex.items-center.space-x-1(class='md:space-x-3')
+        li.inline-flex.items-center
+          a.inline-flex.items-center.text-sm.font-medium.text-black(href='/' class='hover:text-blue-600')
+            i.fa-solid.fa-house
+            span.ml-1 Home
+        li.inline-flex.items-center
+          a.inline-flex.items-center.text-sm.font-medium.text-black
+            i.fa-solid.fa-chevron-right
+            span.ml-1.text-sm.font-medium.text-gray-400(class='md:ml-2 dark:text-gray-400') Pages
+  .bg-white.rounded-md.w-full.px-4
+    .overflow-x-auto.mt-4
+      .inline-block.min-w-full.shadow.rounded-lg.overflow-hidden
+        table.min-w-full.leading-normal.table
+          thead
+            tr
+              th.px-5.py-3.border-b-2.border-gray-200.bg-gray-100.text-left.text-xs.font-semibold.text-gray-600.uppercase.tracking-wider ID
+              th.px-5.py-3.border-b-2.border-gray-200.bg-gray-100.text-left.text-xs.font-semibold.text-gray-600.uppercase.tracking-wider Title
+              th.px-5.py-3.border-b-2.border-gray-200.bg-gray-100.text-left.text-xs.font-semibold.text-gray-600.uppercase.tracking-wider Code
+              th.px-5.py-3.border-b-2.border-gray-200.bg-gray-100.text-left.text-xs.font-semibold.text-gray-600.uppercase.tracking-wider.text-center Action
+          tbody
+              if pages.results.length > 0
+                each page, key in pages.results
+                  tr
+                    td.px-5.py-5.border-b.border-gray-200.bg-white.text-sm
+                      p.text-gray-900.whitespace-no-wrap= page.id
+                    td.px-5.py-5.border-b.border-gray-200.bg-white.text-sm
+                      p.text-gray-900.whitespace-no-wrap=page.title
+                    td.px-5.py-5.border-b.border-gray-200.bg-white.text-sm
+                      p.text-gray-900.whitespace-no-wrap.capitalize= page.code
+                    td.px-5.py-5.border-b.border-gray-200.bg-white.text-sm.flex.justify-center
+                      a.px-3.py-2.text-white.bg-blue-600.rounded-lg.text-center.ml-3(href=`/pages/${page.id}/edit`)
+                        span
+                          i.fa-solid.fa-pen
+                      a.px-3.py-2.text-white.bg-red-600.rounded-lg.ml-3.text-center(href=(`/pages/${page.id}`) data-method="delete" data-message="Are you sure?")
+                        span
+                          i.fa-solid.fa-trash
+              else
+                  tr
+                    td.px-5.py-5.border-b.border-gray-200.bg-white.text-sm.text-center.font-bold(colspan=4) No result
+        .px-5.py-5.bg-white.border-t.flex.flex-col.items-center(class='xs:flex-row xs:justify-between')
+            if pagination.totalPage > 1
+              nav
+                ul.pagination
+                  li.page-item.prev
+                    a.link(href=`?${pagingUrl(filterParams, pagination.previous)}`) Previous
+                  each page in pagination.pages
+                    li.page-item
+                      a( class=`${pagination.currentPage == page ? 'active' : ''}` href=`?${pagingUrl(filterParams, page + 1)}`)= page + 1
+                  li.page-item.next
+                    a(href=`?${pagingUrl(filterParams, pagination.next)}`) Next

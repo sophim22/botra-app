@@ -1,0 +1,72 @@
+
+- var action = "/coupons"
+if form.id
+  - action = "/coupons/"+ form.id
+
+div(class="w-full mx-auto mb-10")
+  div(class="w-8/12 p-3 mx-auto")
+    form(action=action method="POST")
+      input(type='hidden', name="_csrf", value=csrfToken)
+      if form.id
+        input(type='hidden', name="_method", value="PUT")
+      .mt-4
+        div(class="mx-auto lg:w-6/12")
+          .mt-4
+            label Name
+              span.ml-1.text-red-500 *
+            input.w-full.px-4.py-2.mt-2.border.rounded-md(type='text' placeholder='Name...' value=form.name, name="coupons[name]")
+            if errors.name
+              .label-error.text-red-500=errors.name
+          .mt-4
+            label code
+              span.ml-1.text-red-500 *
+            input.w-full.px-4.py-2.mt-2.border.rounded-md(type='text' placeholder='Code...' value=form.code, name="coupons[code]" class=(form.id ? 'border-gray-300 bg-gray-100 border' : '') disabled=(form.id))
+            if errors.code
+              .label-error.text-red-500=errors.code
+          .mt-4
+            label Amount
+              span.ml-1.text-red-500 *
+            input.w-full.px-4.py-2.mt-2.border.rounded-md(type='number' step="any" placeholder='Amount...' value=form.amount name="coupons[amount]")
+            if errors.amount
+              .label-error.text-red-500=errors.amount
+          .mt-4
+            label Status
+              span.ml-1.text-red-500 *
+            select.w-full.px-4.py-2.mt-2.border.rounded-md(placeholder='Status...' value=form.status name="coupons[status]")
+              option(selected=(form.status === 'active'), value="active" ) Active
+              option(selected=(form.status === 'pending'), value="pending" ) Pending
+            if errors.status
+              .label-error.text-red-500=errors.status
+          .mt-4
+            label Discount Type
+              span.ml-1.text-red-500 *
+            select.w-full.px-4.py-2.mt-2.border.rounded-md(placeholder='Discound Type...' value=form.discount_type name="coupons[discount_type]")
+              option(selected=(form.discount_type == "percentage"), value="percentage") Percentage
+              option(selected=(form.discount_type == "amount"), value="amount") Amount
+            if errors.discount_type
+              .label-error.text-red-500=errors.discount_type
+          .mt-4
+            label Directory
+              span.ml-1.text-red-500 *
+            select.w-full.px-4.py-2.mt-2.border.rounded-md(placeholder='Directory ID...' type="number", value=form.property_id, name="coupons[property_id]")
+              option(value='') Choose Directory
+              each property in properties
+                option(selected=(property.id==form.property_id), value=property.id)=property.name
+            if errors.property_id
+              .label-error.text-red-500=errors.property_id
+          div(class="grid-cols-2 gap-3 lg:grid")
+            .mt-4
+              label Start Date
+                span.ml-1.text-red-500 *
+              input.w-full.px-4.py-2.mt-2.border.rounded-md( placeholder="Select Date.." id="dateInput" value=form.started_at name="coupons[started_at]")
+              if errors.started_at
+              .label-error.text-red-500=errors.started_at
+            .mt-4
+              label End Date
+                span.ml-1.text-red-500 *
+              input.w-full.px-4.py-2.mt-2.border.rounded-md( placeholder="Select Date.." id="dateInput" value=form.ended_at name="coupons[ended_at]")
+              if errors.ended_at
+              .label-error.text-red-500=errors.ended_at
+          .flex.justify-between
+            a(href="/coupons", class='flex justify-center w-6/12 mr-2 hover:bg-gray-700').px-6.py-2.mt-4.text-white.bg-gray-800.rounded-lg Cancel
+            button.px-6.py-2.mt-4.text-white.bg-blue-800.rounded-lg(class='flex justify-center w-6/12 ml-4 hover:bg-blue-700' type="submit") Save

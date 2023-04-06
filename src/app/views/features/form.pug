@@ -1,0 +1,27 @@
+form(action=action_req method="POST")
+  input(type='hidden', name="_csrf", value=csrfToken)
+  if form.id
+    input.hidden(name="_method" value="PUT")
+  .mt-4
+    div(class="w-6/12 mx-auto")
+      .mt-4
+        label Name
+          span.ml-1.text-red-500 *
+        input.w-full.px-4.py-2.mt-2.border.rounded-md(type='text' name="feature[name]" class='focus:outline-none focus:ring-1 focus:ring-blue-600' value=form.name required)
+      .mt-4
+        label Status
+          span.ml-1.text-red-500 *
+        select(name="feature[status]" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 " value=form.status required)
+          option(value='') Select an Status....
+          option(selected=(form.status == 'active') value="active") Active
+          option(selected=(form.status == 'pending') value="pending") Pending
+      .mt-4
+        label Style
+          span.ml-1.text-red-500 *
+        select(name="feature[style]" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 " value=form.status required)
+          option(value='') Select Display Style....
+          option(selected=(form.style == 'list') value="list") List
+          option(selected=(form.style == 'carousel') value="carousel") Carousel
+      .mt-5.text-right.mt-2
+        button(class='px-6 py-2 text-white bg-blue-800 rounded-md hover:bg-blue-700 focus:outline-none focus:bg-blue-700' type="submit") Save
+        a(class='px-6 py-3 ml-3 text-white bg-gray-800 rounded-md hover:bg-gray-700 focus:outline-none focus:bg-gray-700' href="/features") Cancel

@@ -1,0 +1,31 @@
+extends  ../layout
+block content
+   .flex.justify-between.items-center.content-center.m-4
+    h1.text-2xl.text-bold Contact Request Detail
+    nav.flex.justify-end(aria-label='Breadcrumb')
+      ol.inline-flex.items-center.space-x-1(class='md:space-x-3')
+        li.inline-flex.items-center
+          a.inline-flex.items-center.text-sm.font-medium.text-black(href='/' class='hover:text-blue-600')
+            i.fa-solid.fa-house
+            span.ml-1 Home
+        li.inline-flex.items-center
+          a.inline-flex.items-center.text-sm.font-medium.text-black(href='/contactrequest' class='hover:text-blue-600')
+            i.fa-solid.fa-chevron-right
+            span.ml-1.text-sm.font-medium(class='md:ml-2') Contact Request
+        li
+          .flex.items-center
+            i.fa-solid.fa-chevron-right
+            span.ml-1.text-sm.font-medium.text-gray-400(class='md:ml-2 dark:text-gray-400') Show
+   .bg-white.rounded-md.w-full
+      .p-6.bg-white.rounded-md.shadow-md
+        .text-gray-700
+          .grid.text-sm(class='md:grid-cols-2')
+            .grid.grid-cols-2
+              .px-4.py-2.font-semibold Name
+              .px-4.py-2=contactrequest.name
+            .grid.grid-cols-2
+              .px-4.py-2.font-semibold Email
+              .px-4.py-2=contactrequest.email
+            .grid.grid-cols-2
+              .px-4.py-2.font-semibold Message
+              .px-4.py-2=contactrequest.message

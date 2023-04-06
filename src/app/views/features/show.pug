@@ -1,0 +1,76 @@
+extends ../layout
+
+block content
+  .flex.justify-between.items-center.content-center.mb-2.mx-4
+      .text-2xl.text-bold.pt-5 Feature Detail
+        a(href=`/features/${feature.id}/new` class="px-4 py-2 mb-1 ml-2 mr-1 text-xs font-bold text-blue-500 uppercase transition-all duration-150 ease-linear bg-transparent border border-blue-500 border-solid rounded-full outline-none hover:bg-blue-500 hover:text-white active:bg-blue-600 focus:outline-none") ADD Property
+      nav.flex.justify-end(aria-label='Breadcrumb')
+        ol.inline-flex.items-center.space-x-1(class='md:space-x-3')
+          li.inline-flex.items-center
+            a.inline-flex.items-center.text-sm.font-medium.text-black(href='/' class='hover:text-blue-600')
+              i.fa-solid.fa-house
+              span.ml-1 Home
+          li.inline-flex.items-center
+            a.inline-flex.items-center.text-sm.font-medium.text-black(href='/features' class='hover:text-blue-600')
+              i.fa-solid.fa-chevron-right
+              span.ml-1.text-sm.font-medium(class='md:ml-2') Features
+          li
+            .flex.items-center
+              i.fa-solid.fa-chevron-right
+              span.ml-1.text-sm.font-medium.text-gray-400(class='md:ml-2 dark:text-gray-400') Show
+  a(href=`/features/${feature.id}/edit` title="view")
+    span
+      i.fas.fa-edit.fa-xl.text-blue-600.flex.justify-end.mr-3.p-3
+  .bg-white.rounded-md.w-full
+    .p-6.bg-white.rounded-md.shadow-md
+      .text-gray-700
+        .grid.text-sm(class='md:grid-cols-2')
+          .grid.grid-cols-2
+            .px-4.py-2.font-semibold Name
+            .px-4.py-2=feature.name
+          .grid.grid-cols-2
+            .px-4.py-2.font-semibold order
+            .px-4.py-2
+              a.text-blue-800=feature.order
+    
+    .overflow-x-auto.mt-4
+      .inline-block.min-w-full.shadow.rounded-lg.overflow-hidden
+        h1.text-2xl.text-bold.pt-5.mx-4 List Favorite
+        table.min-w-full.leading-normal.table
+          thead
+            tr
+              th.px-5.py-3.border-b-2.border-gray-200.bg-gray-100.text-left.text-xs.font-semibold.text-gray-600.uppercase.tracking-wider ID
+              th.px-5.py-3.border-b-2.border-gray-200.bg-gray-100.text-left.text-xs.font-semibold.text-gray-600.uppercase.tracking-wider Directory Name
+              th.px-5.py-3.border-b-2.border-gray-200.bg-gray-100.text-left.text-xs.font-semibold.text-gray-600.uppercase.tracking-wider.text-center Action
+          tbody
+            if properties.results.length > 0
+              each property, key in properties.results
+                tr
+                  td.px-5.py-5.border-b.border-gray-200.bg-white.text-sm
+                    p.text-gray-900.whitespace-no-wrap
+                      =property.id
+                  td.px-5.py-5.border-b.border-gray-200.bg-white.text-sm
+                    p.text-gray-900.whitespace-no-wrap
+                      =property.name
+                  td.px-5.py-5.border-b.border-gray-200.bg-white.text-sm
+                    .flex.justify-center
+                       a.px-3.py-2.text-white.bg-yellow-600.rounded-lg.text-center(href=`/directories/${property.id}`)
+                          span
+                            i.fa-solid.fa-eye
+                       a.px-3.py-2.text-white.bg-red-600.rounded-lg.ml-3.text-center(href=(`/features/${feature.id}/properties/${property.id}`) data-method="delete" data-message="Are you sure?")
+                          span
+                            i.fa-solid.fa-trash
+            else
+              tr
+                td.px-5.py-5.border-b.border-gray-200.bg-white.text-sm.text-center.font-bold(colspan=5) No result
+        .px-5.py-5.bg-white.border-t.flex.flex-col.items-center(class='xs:flex-row xs:justify-between')
+          if pagination.totalPage > 1
+            nav
+              ul.pagination
+                li.page-item.prev
+                  a.link(href=`?${pagingUrl(filterParams, pagination.previous)}`) Previous
+                each page in pagination.pages
+                  li.page-item
+                    a( class=`${pagination.currentPage == page ? 'active' : ''}` href=`?${pagingUrl(filterParams, page + 1)}`)= page + 1
+                li.page-item.next
+                  a(href=`?${pagingUrl(filterParams, pagination.next)}`) Next

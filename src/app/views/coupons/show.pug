@@ -1,0 +1,48 @@
+extends ../layout
+
+block content
+  .flex.justify-between.items-center.content-center.mb-2.mx-4
+    h1.text-2xl.text-bold.pt-5 Coupon Detail
+    nav.flex.justify-end(aria-label='Breadcrumb')
+      ol.inline-flex.items-center.space-x-1(class='md:space-x-3')
+        li.inline-flex.items-center
+          a.inline-flex.items-center.text-sm.font-medium.text-black(href='/' class='hover:text-blue-600')
+            i.fa-solid.fa-house
+            span.ml-1 Home
+        li.inline-flex.items-center
+          a.inline-flex.items-center.text-sm.font-medium.text-black(href='/coupons' class='hover:text-blue-600')
+            i.fa-solid.fa-chevron-right
+            span.ml-1.text-sm.font-medium(class='md:ml-2') Coupons
+        li
+          .flex.items-center
+            i.fa-solid.fa-chevron-right
+            span.ml-1.text-sm.font-medium.text-gray-400(class='md:ml-2 dark:text-gray-400') Show
+  a(href=`/coupons/${coupon.id}/edit` title="view")
+    span
+      i.fas.fa-edit.fa-xl.text-blue-600.flex.justify-end.mr-3.p-3
+  .bg-white.rounded-md.w-full
+    .p-6.bg-white.rounded-md.shadow-md.leading-8
+      p
+        b Name:
+        span.mx-2= coupon.name
+      p
+        b Code:
+        span.mx-2= coupon.code
+      p
+        b Status:
+        span.mx-2= coupon.status
+      p
+        b Discount Type:
+        span.mx-2= coupon.discount_type
+      p
+        b Amount:
+        span.mx-2= coupon.amount
+      a(href=`/properties/${property[0].id}`)
+        b Property:
+        span.mx-2.underline.text-blue-500= property[0].name
+      p
+        b Start Date:
+        span.mx-2= dateFormat(coupon.started_at, 'DD.MM.YYYY', 'N/A')
+      p
+        b End Date:
+        span.mx-2= dateFormat(coupon.ended_at, 'DD.MM.YYYY', 'N/A')

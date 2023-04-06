@@ -1,0 +1,51 @@
+form(action=action_req method="POST" enctype="multipart/form-data")
+  input(type='hidden', name="_csrf", value=csrfToken)
+  if form.id
+    input(type='hidden', name="_method", value="PUT")
+  .mt-4
+    div(class="w-11/12 mx-auto")
+      .mt-4.flex
+        .w-full
+          label Title
+            span.ml-1.text-red-500 *
+          input.w-full.px-4.py-2.mt-2.border.rounded-md(type='text' name="notification[title]" class='focus:outline-none focus:ring-1 focus:ring-blue-600' value=form.title required)
+          if errors.title
+            p.text-red-500.text-sm=errors.title
+        .w-full.ml-2
+          label Link
+            span.ml-1.text-red-500 *
+          input.w-full.px-4.py-2.mt-2.border.rounded-md(type='url' name="notification[link]" class='focus:outline-none focus:ring-1 focus:ring-blue-600' value=form.link required)
+          if errors.link
+            p.text-red-500.text-sm=errors.link
+      .mt-4
+        label Content
+          textarea.w-full.px-4.py-2.mt-2.border.rounded-md.h-36(name="notification[content]" class='focus:outline-none focus:ring-1 focus:ring-blue-600' value=form.content)
+            = form.content
+          if errors.content
+            p.text-red-500.text-sm=errors.content
+      .mt-4.flex
+        .w-full
+          label Publish Date
+            span.ml-1.text-red-500 *
+          input.w-full.px-4.py-2.mt-2.border.rounded-md( placeholder="Select Date.." id="dateInput" value=form.publish_at name="notification[publish_at]" type="date" required)
+          if errors.publish_date
+            p.text-red-500.text-sm=errors.publish_date
+        .w-full.ml-2.mt-2
+          label Status
+            span.ml-1.text-red-500 *
+          select(name="notification[status]" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 " required)
+            option(selected=(form.status == 'pending') value="pending") Pending
+            option(selected=(form.status == 'active') value="active") Active
+          if errors.status
+            p.text-red-500.text-sm=errors.status
+      .mt-4
+        label.block
+        span.sr-only Choose photo
+        if form.image
+          img(src=form.image id="visible" class="object-cover w-1/2 h-86")
+        input#file.block.w-full.text-sm.text-gray-500.mt-3(type='file' accept="image/*" name="file" class='file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-blue-500 file:text-white hover:file:bg-blue-600')
+        input(type="hidden" name="adjustments" id="image-adjustments")
+        #editor_container
+      .mt-5.text-right.mt-2
+        button(class='px-6 py-2 text-white bg-blue-800 rounded-md hover:bg-blue-700 focus:outline-none focus:bg-blue-700' type="submit") Save
+        a(class='px-6 py-3 ml-3 text-white bg-gray-800 rounded-md hover:bg-gray-700 focus:outline-none focus:bg-gray-700' href="/notifications") Cancel

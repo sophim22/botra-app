@@ -1,0 +1,62 @@
+extends ../layout
+
+block content
+  div(class="w-11/12 py-5 mx-auto")
+    h1.text-blue-500.font-bold.text-2xl Dashboard
+
+  div(class="grid flex-wrap w-11/12 grid-cols-1 gap-5 py-5 mx-auto lg:grid-cols-3 md:grid-cols-2")
+    a(href="/users")
+      .card.shadow-md.rounded-lg
+        .flex.justify-center.items-center.bg-orange-300.text-white.rounded-t-lg
+          div.flex.items-center.p-3
+            i(class="text-xl fa-solid fa-users")
+            h2.ml-3.text-xl.font-bold Users
+        div.flex.justify-center.items-center.py-5
+          if users.length > 0
+            p.text-2xl.font-bold.text-orange-400=users.length
+          else 
+            p.text-2xl.font-bold.text-orange-400 0
+    a(href="/directories")
+      .card.shadow-md.rounded-lg
+        .flex.justify-center.items-center.bg-green-300.text-white.rounded-t-lg
+          div.flex.items-center.p-3
+            i(class="text-xl fa-solid fa-city")
+            h2.ml-3.text-xl.font-bold Properties
+        div.flex.justify-center.items-center.py-5
+          if properties.length > 0
+            p.text-2xl.font-bold.text-green-400=properties.length
+          else 
+            p.text-2xl.font-bold.text-green-400 0
+    a(href="/categories")
+      .card.shadow-md.rounded-lg
+        .flex.justify-center.items-center.bg-blue-300.text-white.rounded-t-lg
+          div.flex.items-center.p-3
+            i(class="text-xl fa-solid fa-house-circle-exclamation")
+            h2.ml-3.text-xl.font-bold Categories
+        div.flex.justify-center.items-center.py-5
+          if categories.length > 0
+            p.text-2xl.font-bold.text-blue-400=categories.length
+          else 
+            p.text-2xl.font-bold.text-blue-400 0
+    a(href="/coupons")
+      .card.shadow-md.rounded-lg
+        .flex.justify-center.items-center.bg-teal-300.text-white.rounded-t-lg
+          div.flex.items-center.p-3
+            i(class="text-xl fa-solid fa-tags")
+            h2.ml-3.text-xl.font-bold Coupons
+        div.flex.justify-center.items-center.py-5
+          if coupons.length > 0
+            p.text-2xl.font-bold.text-teal-400=coupons.length
+          else 
+            p.text-2xl.font-bold.text-teal-400 0
+    a(href="/members")
+      .card.shadow-md.rounded-lg
+        .flex.justify-center.items-center.bg-purple-300.text-white.rounded-t-lg
+          div.flex.items-center.p-3
+            i(class="text-xl fa-solid fa-user-secret")
+            h2.ml-3.text-xl.font-bold Members
+        div.flex.justify-center.items-center.py-5
+          if members.length > 0
+            p.text-2xl.font-bold.text-purple-400=members.length
+          else 
+            p.text-2xl.font-bold.text-purple-400 0

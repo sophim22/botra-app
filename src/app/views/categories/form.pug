@@ -1,0 +1,48 @@
+- var action = `/categories?_csrf=${csrfToken}`
+if form.id
+  - action = `/categories/${form.id}?_csrf=${csrfToken}&_method=put`
+
+form(action=action method="POST" enctype="multipart/form-data")
+  input(type='hidden', name="_csrf", value=csrfToken)
+  if form.id
+    input(type='hidden', name="_method", value="PUT")
+  .mt-4
+    div(class="w-6/12 mx-auto")
+      .mt-4
+        label Name
+          span.ml-1.text-red-500 *
+        input.w-full.px-4.py-2.mt-2.border.rounded-md(type='text' name="category[name]" class='focus:outline-none focus:ring-1 focus:ring-blue-600' value=form.name required)
+        if errors.name
+          .label-error.text-red-500=errors.name
+      .mt-4
+        label Code
+          span.ml-1.text-red-500 *
+        input.w-full.px-4.py-2.mt-2.border.rounded-md(type='text' name="category[code]" class='focus:outline-none focus:ring-1 focus:ring-blue-600' value=form.code required)
+        if errors.code
+          .label-error.text-red-500=errors.code
+      .mt-4
+        label Status
+          span.ml-1.text-red-500 *
+        select(name="category[status]" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 " required)
+          option(selected=(form.status == 'pending') value="pending") Pending
+          option(selected=(form.status == 'active') value="active") Active
+      .mt-4
+        label Image
+          span.ml-1.text-red-500 *
+        .flex.items-center.justify-center.mt-4.w-full.mx-auto
+          label#upload.mx-auto.cursor-pointer.flex.flex-col.rounded-xl.border-2.border-dashed.border-blue-400.bg-white.text-center.h-52(for='file' class="w-full")
+            .relative.flex.flex-col.items-center.justify-center.pt-7.rounded-xl
+              if(form.id)
+                img#visible(class="absolute inset-0 mx-auto h-52" src=form.image)
+              else
+                img#visible(class="absolute inset-0 mx-auto h-52")
+              svg.h-10.w-10.text-blue-500.mt-10(xmlns='http://www.w3.org/2000/svg' fill='none' viewbox='0 0 24 24' stroke='currentColor' stroke-width='2')
+                path(stroke-linecap='round' stroke-linejoin='round' d='M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12')
+              h2.mt-4.text-xl.font-medium.text-gray-700.tracking-wide Upload Photo
+              p.mt-2.text-gray-500.tracking-wide Upload &amp; drop your file SVG, PNG, JPG or GIF.
+              input#file.opacity-0(type='file' name="file" accept="image/*")
+        if errors.image
+          .label-error.text-red-500=errors.image
+      .mt-4.text-right.mt-2
+        button(class='px-6 py-2 text-white bg-blue-800 rounded-md hover:bg-blue-700 focus:outline-none focus:bg-blue-700' type="submit") Save
+        a(class='px-6 py-3 ml-3 text-white bg-gray-800 rounded-md hover:bg-gray-700 focus:outline-none focus:bg-gray-700' href="/categories") Cancel

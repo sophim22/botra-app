@@ -1,0 +1,37 @@
+form(action=action_req method="POST" enctype="multipart/form-data")
+  input(type='hidden', name="_csrf", value=csrfToken)
+  if form.id
+    input(type='hidden', name="_method", value="PUT")
+  .mt-4
+    div(class="w-6/12 mx-auto")
+      .mt-4
+        label Name
+          span.ml-1.text-red-500 *
+        input.w-full.px-4.py-2.mt-2.border.rounded-md(type='text' name="banner[name]" class='focus:outline-none focus:ring-1 focus:ring-blue-600' value=form.name required)
+        if errors.name
+          .label-error.text-red-500=errors.name
+      .mt-4
+        label Status
+          span.ml-1.text-red-500 *
+        select(name="banner[status]" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 " required)
+          option(selected=(form.status == 'pending') value="pending") Pending
+          option(selected=(form.status == 'active') value="active") Active
+      .mt-4
+        label Link
+          span.ml-1.text-red-500 *
+        input.w-full.px-4.py-2.mt-2.border.rounded-md(type='text' name="banner[link]" class='focus:outline-none focus:ring-1 focus:ring-blue-600' value=form.link required)
+        if errors.link
+          .label-error.text-red-500=errors.link
+      .mt-4 
+        if(form.id)
+          img#visible( src=form.imageUrl)
+      .mt-4
+        label.block
+        span.sr-only Choose profile photo
+        img(src=form.imageUrl id="visible" class="hidden")
+        input#file.block.w-full.text-sm.text-gray-500(type='file' accept="image/*" name="file" class='file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-blue-500 file:text-white hover:file:bg-blue-600')
+        input(type="hidden" name="adjustments" id="image-adjustments")
+        #editor_container
+      .mt-5.text-right.mt-2
+        button(class='px-6 py-2 text-white bg-blue-800 rounded-md hover:bg-blue-700 focus:outline-none focus:bg-blue-700' type="submit" ) Save
+        a(class='px-6 py-3 ml-3 text-white bg-gray-800 rounded-md hover:bg-gray-700 focus:outline-none focus:bg-gray-700' href="/banners") Cancel

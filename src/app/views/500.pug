@@ -1,0 +1,28 @@
+doctype html
+html
+  head
+    title= title
+    meta(name='csrf-token', content='#{csrfToken}')
+    meta(charset='utf-8')
+    meta(content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0', name='viewport')
+    meta(http-equiv='X-UA-Compatible', content='IE=edge,chrome=1')
+    link(rel='stylesheet', href='https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css')
+    link(rel='stylesheet', href='/stylesheets/style.css')
+    link(rel='stylesheet', href='/stylesheets/tailwind.css')
+    meta(name='msapplication-TileColor', content='#da532c')
+    meta(name='theme-color', content='#ffffff')
+  body(id=pageName)
+    #errors
+      .auth-container
+        section.flex.items-center.h-full.w-full.justify-center.p-16
+          .container.flex.flex-col.items-center.justify-center.px-5.mx-auto.my-8
+            .max-w-md.text-center
+              h2.mb-8.font-extrabold.text-8xl(class='text-gray-600')
+                span.sr-only Error
+                | 500
+              | &#x9;&#x9;&#x9;
+              p.text-2xl.font-semibold(class='lg:text-2xl text-xl') Sorry, we couldn&apos;t find this page.
+              | &#x9;&#x9;&#x9;
+              p.mt-4.mb-8(class='dark:text-gray-400') But dont worry, you can find plenty of other things on our homepage.
+              | &#x9;&#x9;&#x9;
+              a.px-8.py-3.font-semibold.rounded(rel='noopener noreferrer', href='/', class='bg-violet-400 text-white') Back to homepage

@@ -1,0 +1,21 @@
+extends ../layout
+block content
+  .flex.justify-between.items-center.content-center.m-4
+    h1.text-2xl.text-bold Edit Banner
+    nav.flex.justify-end(aria-label='Breadcrumb')
+      ol.inline-flex.items-center.space-x-1(class='md:space-x-3')
+        li.inline-flex.items-center
+          a.inline-flex.items-center.text-sm.font-medium.text-black(href='/' class='hover:text-blue-600')
+            i.fa-solid.fa-house
+            span.ml-1 Home
+        li.inline-flex.items-center
+          a.inline-flex.items-center.text-sm.font-medium.text-black(href='/banners' class='hover:text-blue-600')
+            i.fa-solid.fa-chevron-right
+            span.ml-1.text-sm.font-medium(class='md:ml-2') Banners
+        li
+          .flex.items-center
+            i.fa-solid.fa-chevron-right
+            span.ml-1.text-sm.font-medium.text-gray-400(class='md:ml-2 dark:text-gray-400') Edit
+
+  -var action_req = `${action}?_csrf=${csrfToken}&_method=put`
+  include ./form

@@ -1,0 +1,143 @@
+extends  ../layout
+block content
+  .flex.justify-between.items-center.content-center.mb-2.mx-4
+    h1.text-2xl.text-bold.pt-5 Show User
+    nav.flex.justify-end(aria-label='Breadcrumb')
+      ol.inline-flex.items-center.space-x-1(class='md:space-x-3')
+        li.inline-flex.items-center
+          a.inline-flex.items-center.text-sm.font-medium.text-black(href='/' class='hover:text-blue-600')
+            i.fa-solid.fa-house
+            span.ml-1 Home
+        li.inline-flex.items-center
+          a.inline-flex.items-center.text-sm.font-medium.text-black(href='/users' class='hover:text-blue-600')
+            i.fa-solid.fa-chevron-right
+            span.ml-1.text-sm.font-medium(class='md:ml-2') Users
+        li
+          .flex.items-center
+            i.fa-solid.fa-chevron-right
+            span.ml-1.text-sm.font-medium.text-gray-400(class='md:ml-2 dark:text-gray-400') Show
+  a(href=`/users/${user.id}/edit` title="view")
+    span
+      i.fas.fa-edit.fa-xl.text-blue-600.flex.justify-end.mr-3.p-3
+  .bg-white.rounded-md.w-full
+    .p-6.bg-white.rounded-md.shadow-md.leading-8
+      img(class='w-20 h-20 rounded-full cursor-pointer' src=user.profileUrl)#gallery
+      .text-gray-700
+        .grid.text-sm(class='md:grid-cols-2')
+          .grid.grid-cols-2
+            .px-4.py-2.font-semibold Username
+            .px-4.py-2=user.username
+          .grid.grid-cols-2
+            .px-4.py-2.font-semibold Phone Number
+            .px-4.py-2=user.phone
+          .grid.grid-cols-2
+            .px-4.py-2.font-semibold Email
+            .px-4.py-2
+              a.text-blue-800=user.email
+          .grid.grid-cols-2
+            .px-4.py-2.font-semibold Date Of Birth
+            .px-4.py-2=user.dob
+    .mb-4.mt-5.bg-gray-200.rounded-t-lg
+      ul#myTab.flex.flex-wrap.-mb-px.text-sm.font-medium.text-center(data-tabs-toggle='#myTabContent' role='tablist')
+        li.mr-2(role='presentation')
+          button#property-tab-btn.inline-block.p-4.border-b-2.border-transparent.rounded-t-lg.tab-active(data-tabs-target='#property' type='button' role='tab' aria-controls='property' aria-selected='false' class='hover:text-gray-600 hover:border-green-300 dark:hover:text-green-300 hover:bg-gray-100' )
+            span.text-sm.font-medium.text-gray-400.ml-2 Directories
+        li.mr-2(role='presentation')
+          button#favorite-tab-btn.inline-block.p-4.border-b-2.border-transparent.rounded-t-lg(class='hover:text-gray-600 hover:border-green-300 hover:bg-gray-100' data-tabs-target='#favorite' type='button' role='tab' aria-controls='favorite' aria-selected='false')
+            span.text-sm.font-medium.text-gray-400.ml-2 Favorites
+    .overflow-x-auto.mt-4.mx-2#property
+        .inline-block.min-w-full.shadow.rounded-lg.overflow-hidden
+          table.min-w-full.leading-normal.table
+            thead
+              tr
+                th.px-5.py-3.border-b-2.border-gray-200.bg-gray-100.text-left.text-xs.font-semibold.text-gray-600.uppercase.tracking-wider ID
+                th.px-5.py-3.border-b-2.border-gray-200.bg-gray-100.text-left.text-xs.font-semibold.text-gray-600.uppercase.tracking-wider Directory
+                th.px-5.py-3.border-b-2.border-gray-200.bg-gray-100.text-left.text-xs.font-semibold.text-gray-600.uppercase.tracking-wider Status
+            tbody
+              if properties.results.length > 0
+                each property in properties.results
+                  tr
+                    td.px-5.py-5.border-b.border-gray-200.bg-white.text-sm
+                      p.text-gray-900.whitespace-no-wrap=property.id
+                    td.px-5.py-5.border-b.border-gray-200.bg-white.text-sm
+                      a.text-blue-500.whitespace-no-wrap(href=`/directories/${property.id}` title="view")= property.name
+                    td.px-5.py-5.border-b.border-gray-200.bg-white.text-sm.capitalize
+                      if(property.status==="approved")
+                        span.ml-2.relative.inline-block.px-3.py-1.font-semibold.text-green-900.leading-tight
+                          span.absolute.inset-0.bg-green-200.opacity-50.rounded-full(aria-hidden='')
+                          span.relative=property.status
+                      else if (property.status==="request preview")
+                        span.ml-2.relative.inline-block.px-3.py-1.font-semibold.text-yellow-900.leading-tight
+                          span.absolute.inset-0.bg-yellow-200.opacity-50.rounded-full(aria-hidden='')
+                          span.relative=property.status
+                      else if (property.status==="pending")
+                        span.ml-2.relative.inline-block.px-3.py-1.font-semibold.text-orange-900.leading-tight
+                          span.absolute.inset-0.bg-orange-200.opacity-50.rounded-full(aria-hidden='')
+                          span.relative=property.status
+                      else
+                        span.ml-2.relative.inline-block.px-3.py-1.font-semibold.text-red-900.leading-tight
+                          span.absolute.inset-0.bg-red-200.opacity-50.rounded-full(aria-hidden='')
+                          span.relative=property.status
+              else
+                tr
+                  td.px-5.py-5.border-b.border-gray-200.bg-white.text-sm.text-center.font-bold(colspan=3) No result
+          .px-5.py-5.bg-white.border-t.flex.flex-col.items-center(class='xs:flex-row xs:justify-between')
+              if pagination.totalPage > 1
+                nav
+                  ul.pagination
+                    li.page-item.prev
+                      a.link(href=`?${pagingUrl(filterParams, pagination.previous)}`) Previous
+                    each page in pagination.pages
+                      li.page-item
+                        a( class=`${pagination.currentPage == page ? 'active' : ''}` href=`?${pagingUrl(filterParams, page + 1)}`)= page + 1
+                    li.page-item.next
+                      a(href=`?${pagingUrl(filterParams, pagination.next)}`) Next
+    .overflow-x-auto.mt-4.mx-2.hidden#favorite
+        .inline-block.min-w-full.shadow.rounded-lg.overflow-hidden
+          table.min-w-full.leading-normal.table
+            thead
+              tr
+                th.px-5.py-3.border-b-2.border-gray-200.bg-gray-100.text-left.text-xs.font-semibold.text-gray-600.uppercase.tracking-wider ID
+                th.px-5.py-3.border-b-2.border-gray-200.bg-gray-100.text-left.text-xs.font-semibold.text-gray-600.uppercase.tracking-wider Directory
+                th.px-5.py-3.border-b-2.border-gray-200.bg-gray-100.text-left.text-xs.font-semibold.text-gray-600.uppercase.tracking-wider Status
+
+            tbody
+              if favorites.results.length > 0
+                each favorite, key in favorites.results
+                  tr
+                    td.px-5.py-5.border-b.border-gray-200.bg-white.text-sm
+                      p.text-gray-900.whitespace-no-wrap= favorite.id
+                    td.px-5.py-5.border-b.border-gray-200.bg-white.text-sm
+                      a.text-blue-500.whitespace-no-wrap(href=`/directories/${favorite.property.id}`)= favorite.property.name
+                    td.px-5.py-5.border-b.border-gray-200.bg-white.text-sm.capitalize
+                      if(favorite.property.status==="approved")
+                        span.ml-2.relative.inline-block.px-3.py-1.font-semibold.text-green-900.leading-tight
+                          span.absolute.inset-0.bg-green-200.opacity-50.rounded-full(aria-hidden='')
+                          span.relative=favorite.property.status
+                      else if (favorite.property.status==="request preview")
+                        span.ml-2.relative.inline-block.px-3.py-1.font-semibold.text-yellow-900.leading-tight
+                          span.absolute.inset-0.bg-yellow-200.opacity-50.rounded-full(aria-hidden='')
+                          span.relative=favorite.property.status
+                      else if (favorite.property.status==="pending")
+                        span.ml-2.relative.inline-block.px-3.py-1.font-semibold.text-orange-900.leading-tight
+                          span.absolute.inset-0.bg-orange-200.opacity-50.rounded-full(aria-hidden='')
+                          span.relative=favorite.property.status
+                      else
+                        span.ml-2.relative.inline-block.px-3.py-1.font-semibold.text-red-900.leading-tight
+                          span.absolute.inset-0.bg-red-200.opacity-50.rounded-full(aria-hidden='')
+                          span.relative=favorite.property.status
+
+              else
+                tr
+                  td.px-5.py-5.border-b.border-gray-200.bg-white.text-sm.text-center.font-bold(colspan=3) No result
+          .px-5.py-5.bg-white.border-t.flex.flex-col.items-center(class='xs:flex-row xs:justify-between')
+            if paginationFavorites.totalPage > 1
+              nav
+                ul.pagination
+                  li.page-item.prev
+                    a.link(href=`?${pagingUrl(filterParams, pagination.previous)}`) Previous
+                  each page in pagination.pages
+                    li.page-item
+                      a( class=`${pagination.currentPage == page ? 'active' : ''}` href=`?${pagingUrl(filterParams, page + 1)}`)= page + 1
+                  li.page-item.next
+                    a(href=`?${pagingUrl(filterParams, pagination.next)}`) Next

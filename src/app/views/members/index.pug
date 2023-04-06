@@ -1,0 +1,66 @@
+extends ../layout
+
+block content
+  .flex.justify-between.items-center.content-center.mb-2.mx-4
+    .text-2xl.text-bold.pt-5 Members
+      a(href="/members/new" class="px-4 py-2 mb-1 ml-2 mr-1 text-xs font-bold text-blue-500 uppercase transition-all duration-150 ease-linear bg-transparent border border-blue-500 border-solid rounded-full outline-none hover:bg-blue-500 hover:text-white active:bg-blue-600 focus:outline-none") Create
+    nav.flex.justify-end.mr-5(aria-label='Breadcrumb')
+      ol.inline-flex.items-center.space-x-1(class='md:space-x-3')
+        li.inline-flex.items-center
+          a.inline-flex.items-center.text-sm.font-medium.text-black(href='/' class='hover:text-blue-600')
+            i.fa-solid.fa-house
+            span.ml-1 Home
+        li.inline-flex.items-center
+          a.inline-flex.items-center.text-sm.font-medium.text-black
+            i.fa-solid.fa-chevron-right
+            span.ml-1.text-sm.font-medium.text-gray-400(class='md:ml-2 dark:text-gray-400') Members
+
+  .bg-white.rounded-md.w-full.px-4
+    form(action="/members")
+      div(class='grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3')
+        .ml-3
+          label Email
+          input(class="w-full px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-600" type='text' name='email' value=params.email)
+      .mt-3.text-right
+        button(class="px-6 py-2 text-white bg-blue-800 rounded-md hover:bg-blue-700 focus:outline-none focus:bg-blue-700" type="submit") Search
+        a(class="px-6 py-3 ml-3 text-white bg-gray-800 rounded-md hover:bg-gray-700 focus:outline-none focus:bg-gray-700" href="/members") Reset
+    .overflow-x-auto.mt-4
+      .inline-block.min-w-full.shadow.rounded-lg.overflow-hidden
+        table.min-w-full.leading-normal.table
+          thead
+            tr
+              th.table-header ID
+              th.table-header Email
+              th.table-header Role
+              th.table-header Action
+          tbody
+            if members.results.length > 0
+              each member, key in members.results
+                tr
+                  td.table-item
+                    p.text-gray-900.whitespace-no-wrap= member.id
+                  td.table-item
+                    p.text-gray-900.whitespace-no-wrap= member.email
+                  td.table-item
+                    p.text-gray-900.whitespace-no-wrap.capitalize= member.role
+                  td.table-item.flex.justify-center
+                    a.px-3.py-2.text-white.bg-blue-600.rounded-lg.text-center(href=`/members/${member.id}/edit`)
+                      span
+                        i.fa-solid.fa-pen
+                    a.px-3.py-2.text-white.bg-red-600.rounded-lg.ml-3.text-center(href=(`/members/${member.id}`) data-method="delete" data-message="Are you sure?")
+                      span
+                        i.fa-solid.fa-trash
+            else
+              tr
+                td.table-item.text-center.font-bold(colspan=4) No result
+        .px-5.py-5.bg-white.border-t.flex.flex-col.items-center(class='xs:flex-row xs:justify-between')
+          if pagination.totalPage > 1
+            nav
+              ul.pagination
+                li.page-item.prev
+                  a.link(href=`?${pagingUrl(filterParams, pagination.previous)}`) Previous
+                each page in pagination.pages
+                  li.page-item
+                    a( class=`${pagination.currentPage == page ? 'active' : ''}` href=`?${pagingUrl(filterParams, page + 1)}`)= page + 1
+                li.page-item.next
+                  a(href=`?${pagingUrl(filterParams, pagination.next)}`) Next

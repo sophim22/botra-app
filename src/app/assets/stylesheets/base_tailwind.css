@@ -1,0 +1,73 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.pagination {
+  @apply inline-flex -space-x-px;
+}
+
+.pagination .page-item.prev a{
+  @apply px-3 py-2 ml-0 text-gray-500 bg-white border border-gray-300 rounded-l-lg hover:bg-gray-100 hover:text-gray-700;
+}
+
+.pagination .page-item.next a{
+  @apply px-3 py-2 text-gray-500 bg-white border border-gray-300 rounded-r-lg hover:bg-gray-100 hover:text-gray-700;
+}
+.pagination .page-item a {
+  @apply px-3 py-2 text-blue-600 bg-white border border-gray-300 hover:bg-blue-100 hover:text-blue-700;
+}
+.pagination .page-item a.disabled {
+  @apply text-blue-600 bg-blue-50 hover:bg-blue-100 hover:text-blue-700;
+  pointer-events: none;
+  cursor: default;
+}
+
+.pagination .page-item a.active {
+  @apply text-blue-600 bg-blue-50 hover:bg-blue-100 hover:text-blue-700;
+}
+
+.ck-editor__editable {
+   min-height: 500px;
+}
+
+.tab-active {
+  @apply bg-gray-100 border-green-300 shadow-md;
+}
+
+.table-header {
+  @apply px-5 py-3 text-xs font-semibold tracking-wider text-center text-gray-600 uppercase bg-gray-100 border-b-2 border-gray-200;
+}
+
+.table-item {
+  @apply px-5 py-5 text-sm text-center bg-white border-b border-gray-200;
+}
+
+.btn-primary {
+  @apply px-6 py-2 text-white bg-blue-800 rounded-md;
+}
+
+.btn-primary:focus {
+  @apply bg-blue-700 outline-none;
+}
+
+.btn-primary:hover {
+  @apply bg-blue-700;
+}
+
+.FIE_topbar-save-wrapper {
+  display: none !important;
+}
+
+.FIE_topbar-close-button{
+  display: none !important;
+}
+
+.FIE_root {
+  border: 1px solid !important;
+}
+.FIE_topbar {
+ border-bottom: 1px solid !important;
+}
+.FIE_tools-bar {
+  display: none !important;
+}

@@ -1,0 +1,31 @@
+- var action = "/members"
+if form.id
+  - action = "/members/"+ form.id
+
+form(action=action method="POST")
+  input(type='hidden', name="_csrf", value=csrfToken)
+  if form.id
+    input(type='hidden', name="_method", value="PUT")
+  .mt-4
+    div(class="w-6/12 mx-auto")
+      .mt-4
+        label Email
+          span.ml-1.text-red-500 *
+        input.w-full.px-4.py-2.mt-2.border.rounded-md(type='email' name="member[email]" placeholder='example@gmail.com' class='focus:outline-none focus:ring-1 focus:ring-blue-600' value=form.email required)
+        if errors.email
+          .label-error.text-red-500=errors.email
+      .mt-4
+        label Password
+          span.ml-1.text-red-500 *
+        input.w-full.px-4.py-2.mt-2.border.rounded-md(type='password' name="member[password]" placeholder='******' class='focus:outline-none focus:ring-1 focus:ring-blue-600' value=form.password required)
+        if errors.password
+          .label-error.text-red-500=errors.password
+      .mt-4
+        label Confirm Password
+          span.ml-1.text-red-500 *
+        input.w-full.px-4.py-2.mt-2.border.rounded-md(type='password' name="member[confirm_password]" placeholder='******' class='focus:outline-none focus:ring-1 focus:ring-blue-600' value=form.confirm_password required)
+        if errors.confirm_password
+          .label-error.text-red-500=errors.confirm_password
+      .mt-4.text-right.mt-2
+        button(class='px-6 py-2 text-white bg-blue-800 rounded-md hover:bg-blue-700 focus:outline-none focus:bg-blue-700' type="submit") Save
+        a(class='px-6 py-3 ml-3 text-white bg-gray-800 rounded-md hover:bg-gray-700 focus:outline-none focus:bg-gray-700' href="/members") Cancel

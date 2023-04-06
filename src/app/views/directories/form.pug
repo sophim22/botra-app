@@ -1,0 +1,102 @@
+- var action = `/directories?_csrf=${csrfToken}`
+if form.id
+  - action = `/directories?_csrf=${csrfToken}&_method=put` + form.id
+
+form(action=action method="POST"  enctype="multipart/form-data")
+  input(type='hidden', name="_csrf", value=csrfToken)
+  if form.id
+    input(type='hidden', name="_method", value="PUT")
+  .mt-4
+    div(class="w-11/12 mx-auto")
+      .mt-4.flex.w-full
+        .w-full
+          label Name
+            span.ml-1.text-red-500 *
+          input.w-full.px-4.py-2.mt-2.border.rounded-md(type='text' name="property[name]" class='focus:outline-none focus:ring-1 focus:ring-blue-600' value=form.name required)
+          if errors.name
+            .label-error.text-red-500=errors.name
+        .w-full.ml-2
+          label Category
+            span.ml-1.text-red-500 *
+          select.w-full.px-4.py-2.mt-2.border.rounded-md(value=form.category_id, name="property[category_id]" required)
+            option(value='') Choose Category
+            each category in categories
+              option(selected=(category.id==form.category_id), value=category.id)=category.name
+          if errors.category_id
+            .label-error.text-red-500=errors.category_id
+      .mt-4.flex
+        .w-full
+          label Price Range
+          input.w-full.px-4.py-2.mt-2.border.rounded-md(type='text' name="property[price_range]" class='focus:outline-none focus:ring-1 focus:ring-blue-600' value=form.price_range)
+          if errors.price_range
+            .label-error.text-red-500=errors.price_range
+        .w-full.ml-2
+          label Contact
+          input.w-full.px-4.py-2.mt-2.border.rounded-md(type='text' name="property[contact]" class='focus:outline-none focus:ring-1 focus:ring-blue-600' value=form.contact)
+          if errors.contact
+            .label-error.text-red-500=errors.contact
+      .mt-4.flex
+        .w-full
+          label Website
+          input.w-full.px-4.py-2.mt-2.border.rounded-md(type='url' name="property[website]" class='focus:outline-none focus:ring-1 focus:ring-blue-600' value=form.website)
+          if errors.website
+            .label-error.text-red-500=errors.website
+        .w-full.ml-2
+          label Status
+            span.ml-1.text-red-500 *
+          select.w-full.px-4.py-2.mt-2.border.rounded-md(value=form.status name="property[status]")
+            option(selected=(form.status === 'pending'), value="pending" ) Pending
+            option(selected=(form.status === 'request preview'), value="request preview" ) Request Preview
+            option(selected=(form.status === 'rejected'), value="rejected" ) Rejected
+            option(selected=(form.status === 'approved'), value="approved" ) Approved
+          if errors.status
+            .label-error.text-red-500=errors.status
+      .mt-4.flex
+        .w-full
+          label Open & Close Time
+          textarea.w-full.px-4.py-2.mt-2.border.rounded-md.resize-none(name="property[open_close_time]" class='focus:outline-none focus:ring-1 focus:ring-blue-600' value=form.open_close_time)
+            = form.open_close_time
+          if errors.open_close_time
+            .label-error.text-red-500=errors.open_close_time
+        .w-full.ml-2
+          label Address
+          textarea.w-full.px-4.py-2.mt-2.border.rounded-md.resize-none(name="property[address]" class='focus:outline-none focus:ring-1 focus:ring-blue-600' value=form.address)
+            = form.address
+          if errors.address
+            .label-error.text-red-500=errors.address
+      .mt-4
+        label Information
+        textarea.w-full.px-4.py-2.mt-2.border.rounded-md.h-36(name="property[description]" class='focus:outline-none focus:ring-1 focus:ring-blue-600' value=form.description)
+          = form.description
+        if errors.description
+          .label-error.text-red-500=errors.description
+      .mt-4
+        label Location
+        input(type="text" placeholder="Search Location" id="search-input" class="w-1/2 px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-600")
+        #map.w-full.h-96
+        input(type='hidden' name="property[longitude]" id="property-longitude" class='focus:outline-none focus:ring-1 focus:ring-blue-600' value=form.longitude)
+        input(type='hidden' name="property[latitude]" id="property-latitude" class='focus:outline-none focus:ring-1 focus:ring-blue-600' value=form.latitude)
+      #social-list.mt-4(data-value=form.social_link)
+        .text-md.font-bold Social Link
+          span#add-social-link(class="w-32 px-4 py-2 mb-1 ml-2 mr-1 text-xs font-bold text-center text-blue-500 uppercase transition-all duration-150 ease-linear bg-transparent border border-blue-500 border-solid rounded outline-none hover:bg-blue-500 hover:text-white active:bg-blue-600 focus:outline-none") Add
+        #social-link-wrapper
+      .mt-4
+        label
+          | Images
+          span.ml-1.text-red-500 *
+        if form.id
+          .flex
+            each gallery in galleries
+              .w-32.h-48(class="even:ml-4")
+                img(src=gallery.pathUrl id="visible"  class="w-32 h-32 mb-3 mr-4 rounded-md")
+                .mt-3
+                a.px-3.py-2.text-white.bg-red-600.rounded-lg.text-center(href=(`/galleries/${gallery.id}`) data-method="delete" data-message="Are you sure?")
+                          span
+                            i.fa-solid.fa-trash
+        label#add-file.mt-2.w-28.flex.flex-col.items-center.px-4.py-6.bg-white.text-blue-400.rounded-lg.shadow-lg.tracking-wide.uppercase.border.border-blue-400.cursor-pointer(class='hover:bg-blue-300 hover:text-white')
+          icon.fas.fa-plus.fa-2xl
+        #files-wrapper.grid.grid-cols-6.gap-6
+        #editor_container.mt-2
+      .mt-4.text-right
+        button(class='px-6 py-2 text-white bg-blue-800 rounded-md hover:bg-blue-700 focus:outline-none focus:bg-blue-700' type="submit") Save
+        a(class='px-6 py-3 ml-3 text-white bg-gray-800 rounded-md hover:bg-gray-700 focus:outline-none focus:bg-gray-700' href="/directories") Cancel

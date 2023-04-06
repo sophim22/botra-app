@@ -1,0 +1,41 @@
+doctype html
+html
+  head
+    title= title
+    meta(name='csrf-token', content=csrfToken)
+    meta(charset='utf-8')
+    meta(content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0', name='viewport')
+    link(rel='stylesheet', href='/stylesheets/style.css', data-turbolinks-track="true")
+    link(rel='stylesheet', href='/stylesheets/tailwind.css', data-turbolinks-track="true")
+    //- link(rel='apple-touch-icon', sizes='57x57', href='/apple-icon-57x57.png')
+    //- link(rel='apple-touch-icon', sizes='180x180', href='/apple-touch-icon.png')
+    //- link(rel='icon', type='image/png', sizes='32x32', href='/favicon-32x32.png')
+    //- link(rel='icon', type='image/png', sizes='16x16', href='/favicon-16x16.png')
+    //- link(rel='manifest', href='/site.webmanifest')
+    //- link(rel='mask-icon', href='/safari-pinned-tab.svg', color='#5bbad5')
+    meta(name='msapplication-TileColor', content='#da532c')
+    meta(name='theme-color', content='#ffffff')
+    script(src='/javascripts/application.bundle.js', type='text/javascript', defer, data-turbolinks-track="true")
+    script(src=`https://maps.googleapis.com/maps/api/js?key=${process.env.MAP_API_KEY}&libraries=places`, type='text/javascript')
+  body(id=pageName)
+    div(id=(isSignIn && !hideSideMenu) ? 'main-container' : 'session-container')
+      if isIE
+        include ./unsupport_browser
+      else
+        #notification(data-notice=messages)
+        if isSignIn && !hideSideMenu
+          .wrapper.d-flex.align-items-stretch#container-wrapper.pb-20
+            include ./shared/navbar
+            include ./shared/sidebar
+            #content
+              .p-1.p-md-2(class="lg:w-10/12 w-full lg:mx-[16.65%]")
+                block content
+            #sidebar-active-overlay
+        else
+          .wrapper.d-flex.align-items-stretch#container-wrapper.pb-20
+            include ./shared/navbar
+            include ./shared/sidebar
+            #content
+              .p-1.p-md-2
+                block content
+            #sidebar-active-overlay

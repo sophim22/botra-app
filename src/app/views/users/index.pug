@@ -1,0 +1,73 @@
+extends ../layout
+include ./table_row
+include ../breadcrumbs
+block content
+  .flex.justify-between.items-center.content-center.mb-2.mx-4
+    .text-2xl.text-bold.pt-5 User List
+      a(href="/users/new" class="px-4 py-2 mb-1 ml-2 mr-1 text-xs font-bold text-blue-500 uppercase transition-all duration-150 ease-linear bg-transparent border border-blue-500 border-solid rounded-full outline-none hover:bg-blue-500 hover:text-white active:bg-blue-600 focus:outline-none") Create
+    nav.flex.justify-end.mr-5(aria-label='Breadcrumb')
+      ol.inline-flex.items-center.space-x-1(class='md:space-x-3')
+        li.inline-flex.items-center
+          a.inline-flex.items-center.text-sm.font-medium.text-black(href='/' class='hover:text-blue-600')
+            i.fa-solid.fa-house
+            span.ml-1 Home
+        li.inline-flex.items-center
+          a.inline-flex.items-center.text-sm.font-medium.text-black
+            i.fa-solid.fa-chevron-right
+            span.ml-1.text-sm.font-medium.text-gray-400(class='md:ml-2 dark:text-gray-400') Users
+  .bg-white.rounded-md.w-full.px-4
+    form(action="/users")
+      div(class='grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3')
+        div
+          label Username
+          input(class="w-full px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-600" type='text' name='username' value=params.username placeholder="Enter Username....")
+        div.ml-3
+          label Email
+          input(class="w-full px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-600" type='text' name='email' value=params.email placeholder="Enter Email....")
+        div.ml-3
+          label Phone
+          input(class="w-full px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-600" type='text' name='phone' value=params.phone)
+      .ml-10.space-x-8(class='lg:ml-40')
+        div.flex.justify-end.py-6
+          button(class="px-6 py-2 text-white bg-blue-800 rounded-md hover:bg-blue-700 focus:outline-none focus:bg-blue-700" type="submit") Search
+          a(href="/users")
+              button.bg-gray-600.px-4.py-2.rounded-md.text-white.font-semibold.tracking-wide.cursor-pointer.ml-2(class="hover:bg-gray-700 focus:bg-gray-700") Reset
+    div
+      .overflow-x-auto.mt-4
+        .inline-block.min-w-full.shadow.rounded-lg.overflow-hidden
+          table.min-w-full.leading-normal
+            thead
+              tr
+                th.table-header ID
+                th.table-header
+                  | Username
+                th.table-header
+                  | Email
+                th.table-header
+                  | Phone
+                th.table-header
+                  | Date Of Birth
+                th.table-header
+                  | Verify?
+                th.table-header
+                  | Status
+                th.table-header
+                  | Actions
+            tbody
+              if users.results.length > 0
+                each user, key in users.results
+                  +tr(user)
+              else
+                  tr
+                    td.px-5.py-5.border-b.border-gray-200.bg-white.text-sm.text-center.font-bold(colspan=4) No result
+          .px-5.py-5.bg-white.border-t.flex.flex-col.items-center(class='xs:flex-row xs:justify-between')
+            if pagination.totalPage > 1
+              nav
+                ul.pagination
+                  li.page-item.prev
+                    a.link(href=`?${pagingUrl(filterParams, pagination.previous)}`) Previous
+                  each page in pagination.pages
+                    li.page-item
+                      a( class=`${pagination.currentPage == page ? 'active' : ''}` href=`?${pagingUrl(filterParams, page + 1)}`)= page + 1
+                  li.page-item.next
+                    a(href=`?${pagingUrl(filterParams, pagination.next)}`) Next

@@ -1,0 +1,45 @@
+form(action=action_req method="POST")
+  input(type='hidden', name="_csrf", value=csrfToken)
+  if form.id
+    input(type='hidden', name="_method", value="PUT")
+  .mt-4
+    div(class="w-6/12 mx-auto")
+      h1 Change Username & Email
+      .mt-4
+        label Username
+          span.ml-1.text-red-500 *
+        input.w-full.px-4.py-2.mt-2.border.rounded-md(type='text' name="profile[username]" class='focus:outline-none focus:ring-1 focus:ring-blue-600' value=form.username required)
+        if errors
+          .label-error.text-red-500=errors.username
+      .mt-4
+        label Email
+          span.ml-1.text-red-500 *
+        input.w-full.px-4.py-2.mt-2.border.rounded-md(type='email' name="profile[email]" class='focus:outline-none focus:ring-1 focus:ring-blue-600' value=form.email  required)
+        if errors
+          .label-error.text-red-500=errors.email
+      .mt-4.text-right
+        button(class='px-6 py-2 text-white bg-blue-800 rounded-md hover:bg-blue-700 focus:outline-none focus:bg-blue-700' type="submit") Save
+        a(class='px-6 py-3 ml-3 text-white bg-gray-800 rounded-md hover:bg-gray-700 focus:outline-none focus:bg-gray-700' href="/") Cancel
+        
+form( action=action_pass method="POST")
+  input(type='hidden', name="_csrf", value=csrfToken)
+  if form.id
+    input(type='hidden', name="_method", value="PUT")
+  .mt-4
+    div(class="w-6/12 mx-auto")
+      h1 Change Password
+      .mt-4
+        label Old Password
+          span.ml-1.text-red-500 *
+        input.w-full.px-4.py-2.mt-2.border.rounded-md(type='password' name="profile[old_password]" class='focus:outline-none focus:ring-1 focus:ring-blue-600' value=form.old_password required)
+      .mt-4
+        label Password
+          span.ml-1.text-red-500 *
+        input.w-full.px-4.py-2.mt-2.border.rounded-md(type='password' name="profile[password]" class='focus:outline-none focus:ring-1 focus:ring-blue-600' value=form.password required)
+      .mt-4
+        label Confirm Password
+          span.ml-1.text-red-500 *
+        input.w-full.px-4.py-2.mt-2.border.rounded-md(type='password' name="profile[confirm_password]" class='focus:outline-none focus:ring-1 focus:ring-blue-600' value=form.password  required)
+      .mt-4.text-right
+        button(class='px-6 py-2 text-white bg-blue-800 rounded-md hover:bg-blue-700 focus:outline-none focus:bg-blue-700' type="submit") Save
+        a(class='px-6 py-3 ml-3 text-white bg-gray-800 rounded-md hover:bg-gray-700 focus:outline-none focus:bg-gray-700' href="/") Cancel

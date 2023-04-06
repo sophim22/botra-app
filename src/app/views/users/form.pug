@@ -1,0 +1,75 @@
+form(action=action_req method="POST" enctype="multipart/form-data")
+  .mt-4
+    input(type='hidden', name="_csrf", value=csrfToken)
+    if form.id
+      input.hidden(name="_method" value="PUT")
+  div
+    label#upload.mx-auto.cursor-pointer.flex.flex-col.rounded-xl.border-2.border-dashed.border-blue-400.bg-white.text-center.h-52.w-80(for='file')
+      .relative.flex.flex-col.items-center.justify-center.pt-7.rounded-xl
+        if(form.id)
+          img#preview(class="absolute inset-0 flex justify-center w-full rounded-xl h-52" src=form.src)
+        else
+          img#preview(class="absolute inset-0 flex justify-center w-full h-52 rounded-xl ")
+        svg.h-10.w-10.text-blue-500.mt-10(xmlns='http://www.w3.org/2000/svg' fill='none' viewbox='0 0 24 24' stroke='currentColor' stroke-width='2')
+        path(stroke-linecap='round' stroke-linejoin='round' d='M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12')
+        h2.mt-4.text-xl.font-medium.text-gray-700.tracking-wide Upload Avatar
+        p.mt-2.text-gray-500.tracking-wide Upload your file SVG, PNG, JPG or GIF.
+    input#file.opacity-0(type='file' name="file" accept="image/*" value=form.src)
+  .mt-4
+    div(class="w-full mx-auto lg:w-9/12 px-3 md:px-2")
+      .mt-4
+        label Username
+          span.ml-1.text-red-500 *
+        input.w-full.px-4.py-2.mt-2.border.rounded-md(type='text' name="user[username]" placeholder='Username...' class='focus:outline-none focus:ring-1 focus:ring-blue-600' value=form.username required)
+        if errors.username
+          .label-error.text-red-500=errors.username
+      .mt-4
+        label Phone
+          if form.provider == 'phone'
+            span.ml-1.text-red-500 *
+        input.w-full.px-4.py-2.mt-2.border.rounded-md(type='text' name="user[phone]" class='focus:outline-none focus:ring-1 focus:ring-blue-600' id="phone" value=form.phone required=form.provider == 'phone')
+        input(type="hidden" name="user[country_code]" id="country_code" value=form.country_code)
+        if errors.phone
+          .label-error.text-red-500=errors.phone
+      .mt-4
+        label Email
+        input.w-full.px-4.py-2.mt-2.border.rounded-md(type='email' name="user[email]" placeholder='Email...' class='focus:outline-none focus:ring-1 focus:ring-blue-600' value=form.email)
+        if errors.email
+          .label-error.text-red-500=errors.email
+      .mt-4
+        label Date Of Birthday
+        input.w-full.px-4.py-2.mt-2.border.rounded-md( placeholder="Select Date.." id="dateInput" value=form.dob name="user[dob]" type="date" )
+        if errors.dob
+          .label-error.text-red-500=errors.dob
+      .mt-4
+        .flex.w-full
+          div(class="w-6/12 mr-2")
+            label.block.mb-2.text-md.text-black(for='status') Status
+              span.ml-1.text-red-500 *
+            select#status.bg-gray-50.border.border-gray-300.text-gray-900.text-sm.rounded-lg.block.w-full(class='focus:ring-blue-500 focus:border-blue-500 p-2.5 dark:bg-white dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500' name="user[status]" value=form.status type="text" placeholder="Select an Status...." required)
+              option(selected=(form.status === 'active') value='active') Active
+              option(selected=(form.status === 'suspended') value='suspended') Suspended
+            if errors.status
+              .label-error.text-red-500=errors.status
+          div(class="w-6/12 ml-2 flex items-end")
+            .flex
+              input(type="checkbox" id="is-verify" name="user[is_verify]" checked=form.is_verify)
+              label.block.text-md.text-black.pl-2(for='is-verify') Is Verify Account?
+      if(form.id)
+        input.w-full.px-4.py-2.mt-2.border.rounded-md(type='hidden' name="user[id]" value=form.id)
+      else
+        .mt-4
+          label Password
+            span.ml-1.text-red-500 *
+          input.w-full.px-4.py-2.mt-2.border.rounded-md(type='password' name="user[password]" placeholder='Password...' class='focus:outline-none focus:ring-1 focus:ring-blue-600' value=form.password required)
+          if errors.password
+            .label-error.text-red-500=errors.password
+        .mt-4
+          label Confirm Password
+            span.ml-1.text-red-500 *
+          input.w-full.px-4.py-2.mt-2.border.rounded-md(type='password' name="user[confirm_password]" placeholder='Confirm Password...' class='focus:outline-none focus:ring-1 focus:ring-blue-600' value=form.password required)
+          if errors.confirm_password
+            .label-error.text-red-500=errors.confirm_password
+      .mt-4.text-right.mt-2
+        button(class='px-6 py-2 text-white bg-blue-800 rounded-md hover:bg-blue-700 focus:outline-none focus:bg-blue-700' type="submit") Save
+        a(class='px-6 py-3 ml-3 text-white bg-gray-800 rounded-md hover:bg-gray-700 focus:outline-none focus:bg-gray-700' href="/users") Cancel

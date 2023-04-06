@@ -1,0 +1,40 @@
+nav(class='sm:px-4 py-2.5 bg-gray-900 border-gray-200 px-4 lg:w-10/12 w-full lg:mx-[16.65%]')
+  .flex.justify-between
+    .nav
+      div(class="block lg:hidden")
+        i.fa-solid.fa-bars.fa-2x.text-gray-400(class="hover:cursor-pointer")#open-toggle
+        i.fa-solid.fa-xmark.fa-2x.text-gray-400(class="hidden hover:cursor-pointer")#close-toggle
+    div
+        .relative
+          i.fa-solid.fa-circle-user.text-gray-400.parent(class="hover:cursor-pointer lg:text-5xl fa-2x")
+        .child.absolute(class="z-20 top-16 right-4")
+          ul.p-2.px-5.bg-black.rounded-md.text-gray-400.leading-8.w-full
+            a(href="/auth/logout" data-method="delete")
+              li(class="hover:text-white hover:cursor-pointer") Log Out
+            a(href=`/admin/${currentUser.id}/edit`)
+              li(class="hover:text-white hover:cursor-pointer") Edit Profile
+            a(href="/auth/forget_password")
+              li(class="hover:text-white hover:cursor-pointer") Forget password
+div.p-6.text-center.w-full(class="block bg-gray-800 lg:hidden toggle-menu toggle-inActive").h-screen.fixed
+  a(href="/")
+    .flex.justify-center.items-center
+      div(class="w-[55px] h-[55px]").flex.justify-center.items-center.mb-3
+        img(src="/images/logo.png", alt="logo", class="object-cover w-full")
+    h2.text-white.font-bold(class="text-xl") MAPP
+  .flex.justify-center.items-center.mt-5.w-full
+    ul.list.w-full.text-center
+      li
+        a(href="/", class=activeClass('dashboard', routeName),class='disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none hover:bg-white/10 active:bg-white/30 hover:cursor-pointer').menu.middle.none.font-sans.center.transition-all.text-lg.py-4.rounded-lg.w-full.flex.items-center.gap-4.px-6.capitalize.justify-center
+          p.text-gray-400.font-bold.ml-3 Dashbaord
+      li
+        a(href="/directories", class=activeClass('directories', routeName),class='disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none hover:bg-white/10 active:bg-white/30 hover:cursor-pointer').menu.middle.none.font-sans.center.transition-all.text-lg.py-4.rounded-lg.w-full.flex.items-center.gap-4.px-6.capitalize.justify-center
+          p.text-gray-400.font-bold.ml-4 Directories
+      li
+        a(href="/categories", class=activeClass('categories', routeName),class='disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none hover:bg-white/10 active:bg-white/30 hover:cursor-pointer').menu.middle.none.font-sans.center.transition-all.text-lg.py-4.rounded-lg.w-full.flex.items-center.gap-4.px-6.capitalize.justify-center
+          p.text-gray-400.font-bold.ml-4 Property Categories
+      li
+        a(href="/users", class=activeClass('users', routeName), class='disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none hover:bg-white/10 active:bg-white/30 hover:cursor-pointer').menu.middle.none.font-sans.center.transition-all.text-lg.py-4.rounded-lg.w-full.flex.items-center.gap-4.px-6.capitalize.justify-center
+          p.text-gray-400.font-bold.ml-4 Users
+      li
+        a(href="/coupons", class=activeClass('coupons', routeName), class='disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none hover:bg-white/10 active:bg-white/30 hover:cursor-pointer').menu.middle.none.font-sans.center.transition-all.text-lg.py-4.rounded-lg.w-full.flex.items-center.gap-4.px-6.capitalize.justify-center
+          p.text-gray-400.font-bold.ml-4 Coupons

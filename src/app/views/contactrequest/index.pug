@@ -1,0 +1,51 @@
+extends ../layout
+
+block content
+  .flex.justify-between.items-center.content-center.mb-2.mx-4
+    .text-2xl.text-bold.pt-5 Contact Request
+  .bg-white.rounded-md.w-full.px-4
+    form(action="/banners")
+      div(class='grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3')
+        div
+          label Name
+          input(class="w-full px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-600" type='text' name='name')
+      .mt-3.text-right
+        button(class="px-6 py-2 text-white bg-blue-800 rounded-md hover:bg-blue-700 focus:outline-none focus:bg-blue-700" type="submit") Search
+        a(class="px-6 py-3 ml-3 text-white bg-gray-800 rounded-md hover:bg-gray-700 focus:outline-none focus:bg-gray-700" href="/banners") Reset
+    .overflow-x-auto.mt-4
+      .inline-block.min-w-full.shadow.rounded-lg.overflow-hidden
+        table.min-w-full.leading-normal.table
+          thead
+            tr
+              th.table-header Name
+              th.table-header Email
+              th.table-header Message
+              th.table-header Action
+          tbody
+            if contactrequests.results.length > 0
+              each contactrequest, key in contactrequests.results
+                 tr(class="item")
+                  td.table-item
+                    p.text-gray-900.whitespace-no-wrap.capitalize=contactrequest.name
+                  td.table-item
+                    p.text-gray-900.whitespace-no-wrap.capitalize=contactrequest.email
+                  td.table-item
+                    p.text-gray-900.whitespace-no-wrap.capitalize.truncate.w-36=contactrequest.message
+                  td.table-item.flex.justify-center
+                    a.px-3.py-2.text-white.bg-yellow-600.rounded-lg.text-center(href=`/contactrequest/${contactrequest.id}` title="view")
+                      span
+                        i.fa-solid.fa-eye
+            else
+              tr
+                td.px-5.py-5.border-b.border-gray-200.bg-white.text-sm.text-center.font-bold(colspan=5) No result
+        .px-5.py-5.bg-white.border-t.flex.flex-col.items-center(class='xs:flex-row xs:justify-between')
+          if pagination.totalPage > 1
+            nav
+              ul.pagination
+                li.page-item.prev
+                  a.link(href=`?${pagingUrl(filterParams, pagination.previous)}`) Previous
+                each page in pagination.pages
+                  li.page-item
+                    a( class=`${pagination.currentPage == page ? 'active' : ''}` href=`?${pagingUrl(filterParams, page + 1)}`)= page + 1
+                li.page-item.next
+                  a(href=`?${pagingUrl(filterParams, pagination.next)}`) Next    

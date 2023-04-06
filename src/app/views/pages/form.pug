@@ -1,0 +1,27 @@
+form(action=action_req method="POST")
+    input(type="hidden" name="_csrf" value=csrfToken)
+    if form.id
+      input(type="hidden" name="_method" value="PUT")
+    div(class="w-full mx-auto lg:w-9/12 mt-4")
+      .mt-4
+        label Title
+          span.ml-1.text-red-500 *
+        input.w-full.px-4.py-2.mt-2.border.rounded-md(type='text' name="page[title]" placeholder='Title.....' class='focus:outline-none focus:ring-1 focus:ring-blue-600' value=form.title required)
+        if errors.title
+          .label-error.text-red-500=errors.title
+      .mt-4
+        label Code
+          span.ml-1.text-red-500 *
+        input.w-full.px-4.py-2.mt-2.border.rounded-md(type='text' name="page[code]" placeholder='Code.....' class='focus:outline-none focus:ring-1 focus:ring-blue-600' value=form.code required)
+        if errors.code
+          .label-error.text-red-500=errors.code
+      .mt-4
+        label Content
+          span.ml-1.text-red-500 *
+        textarea#editor(name="page[content]" class="ck-input:h-96")
+          | #{form.content}
+        if errors.content
+          .label-error.text-red-500=errors.content
+      .mt-4.text-right.mt-2
+        button(class='px-6 py-2 bg-blue-800 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:bg-blue-700' type="submit") Save
+        a(class='ml-3 px-6 py-3 bg-gray-800 text-white rounded-md hover:bg-gray-700 focus:outline-none focus:bg-gray-700' href="/pages") Cancel

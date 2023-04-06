@@ -1,0 +1,120 @@
+extends ../layout
+
+block content
+  .flex.justify-between.items-center.content-center.mb-2.mx-4
+    .text-2xl.text-bold.pt-5 Coupons
+      a(href="/coupons/new" class="px-4 py-2 mb-1 ml-2 mr-1 text-xs font-bold text-blue-500 uppercase transition-all duration-150 ease-linear bg-transparent border border-blue-500 border-solid rounded-full outline-none hover:bg-blue-500 hover:text-white active:bg-blue-600 focus:outline-none") Create
+    nav.flex.justify-end.mr-5(aria-label='Breadcrumb')
+      ol.inline-flex.items-center.space-x-1(class='md:space-x-3')
+        li.inline-flex.items-center
+          a.inline-flex.items-center.text-sm.font-medium.text-black(href='/' class='hover:text-blue-600 dark:text-black dark:hover:text-red')
+            i.fa-solid.fa-house.mr-2
+            |  Home
+        li(aria-current='page')
+          .flex.items-center
+            i.fa-solid.fa-chevron-right
+            span.ml-1.text-sm.font-medium.text-gray-400(class='md:ml-2 dark:text-gray-400') Coupons
+  .bg-white.rounded-md.w-full.px-4
+    form(action="/coupons")
+      div(class='grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3')
+        div
+          label Code
+          input.outline-none.block.rounded-md(type='text' name='code' id='' placeholder="Enter coupon code..." class="w-full px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-600" value=params.code)
+        .ml-3
+          label Status
+          select.w-full.px-4.py-2.border.w-full.rounded-md(placeholder='Filter by Status...' class='focus:outline-none focus:ring-1 focus:ring-blue-600' name="status")
+            option(value="") All
+            option(selected=(params.status === 'active'), value="active" ) Active
+            option(selected=(params.status === 'pending'), value="pending" ) Pending
+        .ml-3
+          label Property
+          select.w-full.px-4.py-2.border.rounded-md(placeholder='Property ID...' type="number" class='focus:outline-none focus:ring-1 focus:ring-blue-600', name="property_id")
+            option(value="") All
+            each property in properties
+              option(selected=(property.id==params.property_id), value=property.id )= property.name
+      .mt-3.text-right.mb-5
+        button(class="btn-primary" type="submit") Search
+        a(class="px-6 py-3 ml-3 text-white bg-gray-800 rounded-md hover:bg-gray-700 focus:outline-none focus:bg-gray-700" href="/coupons") Reset
+    div
+      .-mx-4.px-4.py-4.overflow-x-auto(class='sm:-mx-8 sm:px-8')
+        .inline-block.min-w-full.shadow.rounded-lg.overflow-hidden
+          table.min-w-full.leading-normal
+            thead
+              tr
+                th.table-header
+                  | ID
+                th.table-header
+                  | Name
+                th.table-header
+                  | Code
+                th.table-header
+                  | Property
+                th.table-header
+                  | Amount
+                th.table-header
+                  | Discount Type
+                th.table-header
+                  | Status
+                th.table-header
+                  | Started At
+                th.table-header
+                  | Ended At
+                th.table-header
+                  | Actions
+            tbody
+              if coupons.results.length > 0
+                each coupon, key in coupons.results
+                  tr
+                    td.table-item
+                      p.text-gray-900.whitespace-no-wrap=(key+1)
+                    td.table-item
+                      p.text-gray-900.whitespace-no-wrap=coupon.name
+                    if coupon.property
+                      td.table-item
+                        a(href=`/directories/${coupon.property.id}`).whitespace-no-wrap.text-blue-500= coupon.property.name
+                    else
+                      td.table-item
+                        p.text-gray-900.whitespace-no-wrap= "N/A"
+                    td.table-item
+                      p.text-gray-900.whitespace-no-wrap=coupon.code
+                    td.table-item
+                      p.text-gray-900.whitespace-no-wrap=coupon.amount
+                    td.table-item.capitalize
+                      p.text-gray-900.whitespace-no-wrap=coupon.discount_type
+                    td.table-item.capitalize
+                      if(coupon.status ==="active")
+                        span.relative.inline-block.px-3.py-1.font-semibold.text-green-900.leading-tight
+                          span.absolute.inset-0.bg-green-200.opacity-50.rounded-full(aria-hidden='')
+                          span.relative=coupon.status
+                      else
+                          span.relative.inline-block.px-3.py-1.font-semibold.text-red-900.leading-tight
+                            span.absolute.inset-0.bg-red-200.opacity-50.rounded-full(aria-hidden='')
+                            span.relative=coupon.status
+                    td.table-item.text-center
+                      p.text-gray-900.whitespace-no-wrap=dateFormat(coupon.started_at, 'DD.MM.YYYY', 'N/A')
+                    td.table-item.text-center
+                      p.text-gray-900.whitespace-no-wrap=dateFormat(coupon.ended_at, 'DD.MM.YYYY', 'N/A')
+                    td.table-item.flex.justify-center
+                      a.px-3.py-2.text-white.bg-yellow-600.rounded-lg.text-center(href=`/coupons/${coupon.id}` title="view")
+                        span
+                          i.fa-solid.fa-eye
+                      a.px-3.py-2.text-white.bg-blue-600.rounded-lg.text-center.ml-3(href=`/coupons/${coupon.id}/edit` title="edit")
+                        span
+                          i.fa-solid.fa-pen
+                      a.px-3.py-2.text-white.bg-red-600.rounded-lg.ml-3.text-center(href=(`/coupons/${coupon.id}/delete`) title="delete" data-method="delete" data-message="Are you sure?")
+                        span
+                          i.fa-solid.fa-trash
+              else
+                tr.text-center
+                  td.table-item.text-center.font-bold(colspan=9) No result
+          .px-5.py-5.bg-white.border-t.flex.flex-col.items-center(class='xs:flex-row xs:justify-between')
+            if pagination.totalPage > 1
+              nav
+                ul.pagination
+                  li.page-item.prev
+                    a.link(href=`?${pagingUrl(filterParams, pagination.previous)}`) Previous
+                  each page in pagination.pages
+                    li.page-item
+                      a( class=`${pagination.currentPage == page ? 'active' : ''}` href=`?${pagingUrl(filterParams, page + 1)}`)= page + 1
+                  li.page-item.next
+                    a(href=`?${pagingUrl(filterParams, pagination.next)}`) Next

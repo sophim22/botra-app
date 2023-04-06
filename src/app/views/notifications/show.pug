@@ -1,0 +1,51 @@
+extends ../layout
+block content
+  .flex.justify-between.items-center.content-center.mb-2.mx-4
+      .text-2xl.text-bold.pt-5 Notification Detail
+      nav.flex.justify-end(aria-label='Breadcrumb')
+        ol.inline-flex.items-center.space-x-1(class='md:space-x-3')
+          li.inline-flex.items-center
+            a.inline-flex.items-center.text-sm.font-medium.text-black(href='/' class='hover:text-blue-600')
+              i.fa-solid.fa-house
+              span.ml-1 Home
+          li.inline-flex.items-center
+            a.inline-flex.items-center.text-sm.font-medium.text-black(href='/notifications' class='hover:text-blue-600')
+              i.fa-solid.fa-chevron-right
+              span.ml-1.text-sm.font-medium(class='md:ml-2') Notifcations
+          li
+            .flex.items-center
+              i.fa-solid.fa-chevron-right
+              span.ml-1.text-sm.font-medium.text-gray-400(class='md:ml-2 dark:text-gray-400') Show
+  a(href=`/notifications/${notification.id}/edit` title="view")
+    span
+      i.fas.fa-edit.fa-xl.text-blue-600.flex.justify-end.mr-3.p-3
+  .bg-white.rounded-md.w-full
+    .p-6.bg-white.rounded-md.shadow-md.leading-8
+      .grid.grid-cols-1.gap-4(class='sm:grid-cols-2')
+        div
+          p
+            b Title
+            span.mx-2= notification.title
+          p
+            b Link
+            span.mx-2
+              a.text-blue-500(href=`${notification.link}` target="_blank")=notification.link
+          
+          p.capitalize
+            b Status
+            if(notification.status ==="active")
+                              span.relative.inline-block.px-3.py-1.font-semibold.text-green-900.leading-tight
+                                span.absolute.inset-0.bg-green-200.opacity-50.rounded-full(aria-hidden='')
+                                span.relative.capitalize=notification.status
+            else
+              span.relative.inline-block.px-3.py-1.font-semibold.text-red-900.leading-tight
+                span.absolute.inset-0.bg-red-200.opacity-50.rounded-full(aria-hidden='')
+                span.relative.capitalize=notification.status
+          p
+            b Content
+            span.mx-2=notification.content
+
+          p
+            b Image
+              img(class='h-40 cursor-pointer' src=notification.imageUrl)#gallery
+            
